@@ -1,6 +1,9 @@
 package Enemy;
 
+import PathFinding.Node;
 import javafx.scene.shape.Rectangle;
+
+import java.util.List;
 
 public class BaseEnemy extends Rectangle {
     private int speedX;
