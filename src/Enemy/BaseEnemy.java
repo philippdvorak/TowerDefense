@@ -1,15 +1,22 @@
 package Enemy;
 
-public class BaseEnemy {
+import javafx.scene.shape.Rectangle;
+
+public class BaseEnemy extends Rectangle {
     private int speedX;
     private int speedY;
     private int lives;
     private boolean shooting;
+    private double height, width;
 
     public BaseEnemy(int speedX, int speedY) {
         this.speedX = speedX;
         this.speedY = speedY;
         this.lives = 100;
+    }
+
+    private void show() {
+        //TODO: Add Initalization Code for Rectangle
     }
 
     public void setShooting(boolean shooting) {
