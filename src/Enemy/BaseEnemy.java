@@ -33,4 +33,19 @@ public class BaseEnemy extends Rectangle {
     public void setLives(int lives) {
         this.lives = lives;
     }
+
+    public void move() {
+        Thread t = new Thread(() -> {
+            while(lives > 0) {
+                if(speedX != 0)
+                    this.setX(this.getX() + this.speedX);
+
+                if(speedY != 0)
+                    this.setY(this.getY() + this.speedY);
+            }
+        });
+
+        t.setDaemon(true);
+        t.start();
+    }
 }
