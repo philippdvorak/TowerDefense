@@ -12,15 +12,15 @@ public class BaseEnemy {
         this.lives = 100;
     }
 
-    public boolean isShooting() {
-        return shooting;
-    }
-
     public void setShooting(boolean shooting) {
         this.shooting = shooting;
     }
 
     public int getLives() {
         return lives;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
     }
 }
