@@ -1,29 +1,29 @@
 package Enemy;
 
-import PathFinding.Node;
+import javafx.application.Platform;
 import javafx.scene.shape.Rectangle;
-
-import java.util.List;
+import javafx.stage.Stage;
 
 public class BaseEnemy extends Rectangle {
-    private int speedX;
-    private int speedY;
+    private Stage primaryStage;
     private int lives;
-    private boolean shooting;
     private double height, width;
 
-    public BaseEnemy(int speedX, int speedY) {
-        this.speedX = speedX;
-        this.speedY = speedY;
+    public BaseEnemy(int beginRow, int beginCol, Stage primaryStage) {
         this.lives = 100;
+        this.primaryStage = primaryStage;
+
+        show();
+
+        move();
     }
 
     private void show() {
-        //TODO: Add Initalization Code for Rectangle
-    }
+        this.setWidth(10);
+        this.setHeight(40);
 
-    public void setShooting(boolean shooting) {
-        this.shooting = shooting;
+        this.setX(0);
+        this.setY(200);
     }
 
     public int getLives() {
@@ -34,14 +34,16 @@ public class BaseEnemy extends Rectangle {
         this.lives = lives;
     }
 
-    public void move() {
+    private void move() {
         Thread t = new Thread(() -> {
             while(lives > 0) {
-                if(speedX != 0)
-                    this.setX(this.getX() + this.speedX);
-
-                if(speedY != 0)
-                    this.setY(this.getY() + this.speedY);
+                Platform.runLater(() -> this.setX(this.getX() + 1));
+                Platform.runLater(() -> this.setY(this.getY()));
+                try {
+                    Thread.sleep(20);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
