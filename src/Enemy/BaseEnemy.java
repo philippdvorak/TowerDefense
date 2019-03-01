@@ -9,7 +9,7 @@ public class BaseEnemy extends Rectangle {
     private int lives;
     private double height, width;
 
-    public BaseEnemy(int beginRow, int beginCol, Stage primaryStage) {
+    public BaseEnemy(Stage primaryStage) {
         this.lives = 100;
         this.primaryStage = primaryStage;
 
