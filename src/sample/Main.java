@@ -21,7 +21,7 @@ public class Main extends Application {
         primaryStage.setFullScreen(true);
         primaryStage.show();
 
-        root.getChildren().add(new BaseEnemy(200 ,0, primaryStage));
+        root.getChildren().add(new BaseEnemy(primaryStage));
         for(Node tmp : root.getChildren()){
             enemyVector.add((BaseEnemy) tmp);
         }
