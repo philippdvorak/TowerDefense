@@ -22,7 +22,7 @@ public class Main extends Application {
         primaryStage.setFullScreen(true);
         primaryStage.show();
 
-        root.getChildren().add(new BaseEnemy(200 ,0, primaryStage));
+        root.getChildren().add(new BaseEnemy(primaryStage));
         root.getChildren().add(new FirstTower(primaryStage,root));
         root.getChildren().add(new BaseEnemy(primaryStage));
         for(Node tmp : root.getChildren()){
