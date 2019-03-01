@@ -6,7 +6,11 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Vector;
+
 public class Main extends Application {
+
+    private Vector<BaseEnemy> enemyVector= new Vector<>();
 
     @Override
     public void start(Stage primaryStage) {
@@ -17,6 +21,7 @@ public class Main extends Application {
         primaryStage.show();
 
         root.getChildren().add(new BaseEnemy(200 ,0, primaryStage));
+        enemyVector.add((BaseEnemy)root.getChildren().get(0));
     }
 
 
