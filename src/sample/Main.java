@@ -3,6 +3,7 @@ package sample;
 import Enemy.BaseEnemy;
 import javafx.application.Application;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -21,7 +22,9 @@ public class Main extends Application {
         primaryStage.show();
 
         root.getChildren().add(new BaseEnemy(200 ,0, primaryStage));
-        enemyVector.add((BaseEnemy)root.getChildren().get(0));
+        for(Node tmp : root.getChildren()){
+            enemyVector.add((BaseEnemy) tmp);
+        }
     }
 
 
