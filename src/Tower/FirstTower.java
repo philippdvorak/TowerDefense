@@ -16,6 +16,7 @@ public class FirstTower extends Button
     Group root;
     Vector<Rectangle> listFirstTowers = new Vector<>();
 
+
     public FirstTower(Stage primaryStage, Group root)
     {
         this.primaryStage = primaryStage;
