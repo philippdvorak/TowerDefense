@@ -1,6 +1,7 @@
 package sample;
 
 import Enemy.BaseEnemy;
+import Tower.FirstTower;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -12,11 +13,13 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         Group root = new Group();
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        Scene scene = new Scene(root, 300, 275);
+        primaryStage.setScene(scene);
         primaryStage.setFullScreen(true);
         primaryStage.show();
 
         root.getChildren().add(new BaseEnemy(200 ,0, primaryStage));
+        root.getChildren().add(new FirstTower(primaryStage,root));
     }
 
 
