@@ -25,8 +25,11 @@ public class Main extends Application {
         root.getChildren().add(new BaseEnemy(primaryStage));
         root.getChildren().add(new FirstTower(primaryStage,root));
         root.getChildren().add(new BaseEnemy(primaryStage));
+
         for(Node tmp : root.getChildren()){
-            enemyVector.add((BaseEnemy) tmp);
+            if(tmp instanceof BaseEnemy) {
+                enemyVector.add((BaseEnemy) tmp);
+            }
         }
     }
 
