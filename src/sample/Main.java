@@ -11,7 +11,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         Group root = new Group();
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Tower Defense");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.setFullScreen(true);
         primaryStage.show();
