@@ -7,7 +7,6 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
@@ -98,6 +97,7 @@ public class Main extends Application {
 
 
     //Updates the z-index of the button, so the button always stays in the front
+    //Could also be used for other elements which needs to stay in the front
     public static void updateZIndex(Group root)
     {
         Vector<Integer> atr = new Vector<>();

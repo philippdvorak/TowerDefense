@@ -8,6 +8,8 @@ import javafx.scene.shape.Rectangle;
 public class FirstTower extends Rectangle
 {
 
+    //Adds an element of the first Tower which is static and can not be repositioned with the mouse again
+
     Circle HitBox;
 
     public FirstTower(double x,double y)
@@ -24,10 +26,10 @@ public class FirstTower extends Rectangle
         HitBox.setFill(Color.TRANSPARENT);
         HitBox.setCenterX(x+(this.getWidth()/2));
         HitBox.setCenterY(y+(this.getHeight()/2));
-
     }
 
 
+    //Return the HitBox off the Circle, is needed for intersection with the enemies
     public Circle getHitBox() {
         return HitBox;
     }
