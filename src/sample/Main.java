@@ -60,6 +60,7 @@ public class Main extends Application {
                }
            }
         });
+        t.setDaemon(true);
         t.start();
 
 
