@@ -36,7 +36,7 @@ public class BaseEnemy extends Rectangle {
 
     private void move() {
         Thread t = new Thread(() -> {
-            while(lives > 0 && this.getWidth()<primaryStage.getWidth()) {
+            while(lives > 0 && this.getX() < primaryStage.getWidth()) {
                 Platform.runLater(() -> this.setX(this.getX() + 1));
                 Platform.runLater(() -> this.setY(this.getY()));
                 try {
