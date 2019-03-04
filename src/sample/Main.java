@@ -9,27 +9,36 @@ import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Vector;
 
 public class Main extends Application {
 
     private Vector<BaseEnemy> enemyVector= new Vector<>();
     private Vector<FirstTower> towerVector = new Vector<>();
-    Group root;
-    Rectangle Tower = null;
+    private Group root;
+    Image sniper = new Image(new FileInputStream("/Users/michael/Downloads/sniper.png"));
+    ImageView Tower = null;
     FirstTowerMenu ft, ft2;
     private double tempX, tempY;
     VBox Menu = new VBox();
 
+    public Main() throws FileNotFoundException {
+    }
+
     @Override
     public void start(Stage primaryStage) {
         root = new Group();
+
         primaryStage.setTitle("Tower Defense");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.setFullScreen(true);
@@ -44,9 +53,7 @@ public class Main extends Application {
         Menu.getChildren().add(ft2);
 
 
-        root.getChildren().add(new BaseEnemy(primaryStage));
         root.getChildren().add(Menu);
-
 
         //Constant spawn of enemies
         Thread t = new Thread(()->{
@@ -64,7 +71,7 @@ public class Main extends Application {
         t.start();
 
 
-        addlistener(primaryStage);
+        addListener(primaryStage);
 
         for(Node tmp : root.getChildren()){
             if(tmp instanceof BaseEnemy) {
@@ -75,17 +82,19 @@ public class Main extends Application {
     }
 
 
-    //Adds all listners needed for the first Button
-    private void addlistener(Stage primaryStage)
+    //Adds all listeners needed for the first Button
+    private void addListener(Stage primaryStage)
     {
 
         //Listens to the click of the Button
         ft.addEventFilter(MouseEvent.MOUSE_CLICKED, e ->
         {
             if (Tower == null) {
-                Tower = new Rectangle();
-                Tower.setWidth(50);
-                Tower.setHeight(50);
+                Tower = new ImageView(sniper);
+                Tower.setFitWidth(43);
+                Tower.setFitHeight(73);
+
+                Tower.setPreserveRatio(true);
                 root.getChildren().add(Tower);
             }
         });
@@ -94,10 +103,10 @@ public class Main extends Application {
         primaryStage.getScene().addEventHandler(MouseEvent.MOUSE_MOVED,e -> {
             if (Tower != null) {
                 Tower.setVisible(true);
-                tempX = MouseInfo.getPointerInfo().getLocation().x-(Tower.getWidth()/2);
-                tempY = MouseInfo.getPointerInfo().getLocation().y-(Tower.getHeight()/2);
-                Tower.setX(MouseInfo.getPointerInfo().getLocation().x-(Tower.getWidth()/2));
-                Tower.setY(MouseInfo.getPointerInfo().getLocation().y-(Tower.getHeight()/2));
+                tempX = MouseInfo.getPointerInfo().getLocation().x-(Tower.getFitWidth()/2);
+                tempY = MouseInfo.getPointerInfo().getLocation().y-(Tower.getFitHeight()/2);
+                Tower.setX(MouseInfo.getPointerInfo().getLocation().x-(Tower.getFitWidth()/2));
+                Tower.setY(MouseInfo.getPointerInfo().getLocation().y-(Tower.getFitHeight()/2));
             }
         });
 
@@ -118,7 +127,6 @@ public class Main extends Application {
             }
         });
     }
-
 
     //Updates the z-index of the button, so the button always stays in the front
     //Could also be used for other elements which needs to stay in the front

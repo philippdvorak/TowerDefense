@@ -16,7 +16,7 @@ public class FirstTowerMenu extends Button
     public FirstTowerMenu(Stage primaryStage)
     {
         this.primaryStage = primaryStage;
-        this.setText("First Tower");
+        this.setText("Sniper");
         this.setVisible(true);
         this.setPrefWidth(100);
     }

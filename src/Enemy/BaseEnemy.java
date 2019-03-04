@@ -45,6 +45,7 @@ public class BaseEnemy extends Rectangle {
                     e.printStackTrace();
                 }
             }
+            this.setVisible(false);
         });
 
         t.setDaemon(true);

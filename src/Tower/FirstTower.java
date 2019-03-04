@@ -1,13 +1,16 @@
 package Tower;
 
-import apple.laf.JRSUIConstants;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 
-public class FirstTower extends Rectangle
+public class FirstTower extends ImageView
 {
 
     //Adds an element of the first Tower which is static and can not be repositioned with the mouse again
@@ -16,17 +19,23 @@ public class FirstTower extends Rectangle
 
     public FirstTower(double x,double y)
     {
+
+        try {
+            this.setImage(new Image(new FileInputStream("/Users/michael/Downloads/sniper.png")));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         this.setVisible(true);
         this.setX(x);
         this.setY(y);
-        this.setWidth(50);
-        this.setHeight(50);
+        this.setFitWidth(43);
+        this.setFitHeight(73);
 
         HitBox = new Circle(150);
         HitBox.setVisible(false);
         HitBox.setFill(Color.rgb(255, 255, 50,0.5));
-        HitBox.setCenterX(x+(this.getWidth()/2));
-        HitBox.setCenterY(y+(this.getHeight()/2));
+        HitBox.setCenterX(x+(this.getFitWidth()/2));
+        HitBox.setCenterY(y+(this.getFitHeight()/2));
 
         addListeners();
     }
