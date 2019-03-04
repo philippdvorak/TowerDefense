@@ -85,6 +85,8 @@ public class Main extends Application {
             {
                 towerVector.add(new FirstTower(tempX,tempY));
                 root.getChildren().add(towerVector.lastElement());
+                root.getChildren().add(towerVector.lastElement().getHitBox());
+
                 root.getChildren().remove(Tower);
                 Tower = null;
 

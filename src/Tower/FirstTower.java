@@ -18,12 +18,12 @@ public class FirstTower extends Rectangle
         this.setWidth(50);
         this.setHeight(50);
 
+        HitBox = new Circle(120);
         HitBox.setVisible(true);
         HitBox.setStroke(Color.BLACK);
-        HitBox.setFill(Color.WHITE);
-        HitBox = new Circle(40);
-        HitBox.setCenterX(x-(this.getWidth()/2));
-        HitBox.setCenterY(y-(this.getHeight()/2));
+        HitBox.setFill(Color.TRANSPARENT);
+        HitBox.setCenterX(x+(this.getWidth()/2));
+        HitBox.setCenterY(y+(this.getHeight()/2));
 
     }
 
