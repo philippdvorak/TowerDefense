@@ -36,6 +36,9 @@ public class Main extends Application {
         ft2 = new FirstTowerMenu(primaryStage);
 
         Menu.getChildren().add(ft);
+
+        //Only for testing purpose,
+        //is not important and does nothing when clicked
         Menu.getChildren().add(ft2);
 
 
@@ -57,6 +60,8 @@ public class Main extends Application {
     //Adds all listners needed for the first Button
     private void addlistener(Stage primaryStage)
     {
+
+        //Listens to the click of the Button
         ft.addEventFilter(MouseEvent.MOUSE_CLICKED, e ->
         {
             if (Tower == null) {
@@ -67,6 +72,7 @@ public class Main extends Application {
             }
         });
 
+        //Moves the Rectangle around on the screen
         primaryStage.getScene().addEventHandler(MouseEvent.MOUSE_MOVED,e -> {
             if (Tower != null) {
                 Tower.setVisible(true);
@@ -77,7 +83,7 @@ public class Main extends Application {
             }
         });
 
-
+        //Places the Rectangle on the clicked position
         primaryStage.getScene().addEventHandler(MouseEvent.MOUSE_CLICKED, e ->
         {
             if (Tower != null)
