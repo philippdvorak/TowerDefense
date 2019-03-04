@@ -1,10 +1,15 @@
 package Enemy;
 
 import javafx.application.Platform;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-public class BaseEnemy extends Rectangle {
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
+
+public class BaseEnemy extends ImageView {
     private Stage primaryStage;
     private int lives;
     private double height, width;
@@ -12,6 +17,11 @@ public class BaseEnemy extends Rectangle {
     public BaseEnemy(Stage primaryStage) {
         this.lives = 100;
         this.primaryStage = primaryStage;
+        try {
+            this.setImage(new Image(new FileInputStream("/Users/michael/Downloads/balloon.png")));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         show();
 
@@ -19,8 +29,8 @@ public class BaseEnemy extends Rectangle {
     }
 
     private void show() {
-        this.setWidth(10);
-        this.setHeight(40);
+        this.setFitWidth(50);
+        this.setFitHeight(71);
 
         this.setX(0);
         this.setY(200);
