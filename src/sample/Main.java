@@ -5,6 +5,7 @@ import Tower.FirstTower;
 import Tower.FirstTowerMenu;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -45,7 +46,22 @@ public class Main extends Application {
 
         root.getChildren().add(new BaseEnemy(primaryStage));
         root.getChildren().add(Menu);
-        root.getChildren().add(new BaseEnemy(primaryStage));
+
+
+        //Constant spawn of enemies
+        Thread t = new Thread(()->{
+           while (true)
+           {
+               Platform.runLater(()->root.getChildren().add(new BaseEnemy(primaryStage)));
+               try {
+                   Thread.sleep(3000);
+               } catch (InterruptedException e) {
+                   e.printStackTrace();
+               }
+           }
+        });
+        t.start();
+
 
         addlistener(primaryStage);
 
