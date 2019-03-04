@@ -20,7 +20,7 @@ public class FirstTower extends Rectangle
         this.setWidth(50);
         this.setHeight(50);
 
-        HitBox = new Circle(120);
+        HitBox = new Circle(150);
         HitBox.setVisible(true);
         HitBox.setStroke(Color.BLACK);
         HitBox.setFill(Color.TRANSPARENT);
