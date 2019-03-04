@@ -7,7 +7,9 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
@@ -20,8 +22,9 @@ public class Main extends Application {
     private Vector<FirstTower> towerVector = new Vector<>();
     Group root;
     Rectangle Tower = null;
-    FirstTowerMenu ft;
+    FirstTowerMenu ft, ft2;
     private double tempX, tempY;
+    VBox Menu = new VBox();
 
     @Override
     public void start(Stage primaryStage) {
@@ -31,9 +34,14 @@ public class Main extends Application {
         primaryStage.setFullScreen(true);
         primaryStage.show();
         ft = new FirstTowerMenu(primaryStage);
+        ft2 = new FirstTowerMenu(primaryStage);
+
+        Menu.getChildren().add(ft);
+        Menu.getChildren().add(ft2);
+
 
         root.getChildren().add(new BaseEnemy(primaryStage));
-        root.getChildren().add(ft);
+        root.getChildren().add(Menu);
         root.getChildren().add(new BaseEnemy(primaryStage));
 
         addlistener(primaryStage);
@@ -47,7 +55,7 @@ public class Main extends Application {
     }
 
 
-
+    //Adds all listners needed for the first Button
     private void addlistener(Stage primaryStage)
     {
         ft.addEventFilter(MouseEvent.MOUSE_CLICKED, e ->
@@ -79,11 +87,39 @@ public class Main extends Application {
                 root.getChildren().add(towerVector.lastElement());
                 root.getChildren().remove(Tower);
                 Tower = null;
+
+                updateZIndex(root);
+
             }
         });
     }
 
 
+    //Updates the z-index of the button, so the button always stays in the front
+    public static void updateZIndex(Group root)
+    {
+        Vector<Integer> atr = new Vector<>();
+        Vector<Node> b = new Vector<>();
+        int i = 0;
+        for (Node tmp : root.getChildren())
+        {
+            if (tmp instanceof VBox)
+            {
+                atr.add(i);
+                b.add(root.getChildren().get(i));
+            }
+            i++;
+        }
+        for(Integer y : atr)
+        {
+            root.getChildren().remove(y.intValue());
+        }
+
+        for(Node tmp : b)
+        {
+            root.getChildren().add(tmp);
+        }
+    }
 
     public static void main(String[] args) {
         launch(args);
