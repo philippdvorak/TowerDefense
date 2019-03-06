@@ -26,7 +26,7 @@ public class Main extends Application {
     private Vector<BaseEnemy> enemyVector= new Vector<>();
     private Vector<FirstTower> towerVector = new Vector<>();
     private Group root;
-    Image sniper = new Image(new FileInputStream("/Users/michael/Downloads/sniper.png"));
+    Image magier = new Image(new FileInputStream("/Users/michael/Documents/3bHIT/SEW/Praxis/TowerDefense/src/img/Magier.png"));
     ImageView Tower = null;
     FirstTowerMenu ft, ft2;
     private double tempX, tempY;
@@ -45,7 +45,6 @@ public class Main extends Application {
         primaryStage.show();
         ft = new FirstTowerMenu(primaryStage);
         ft2 = new FirstTowerMenu(primaryStage);
-
         Menu.getChildren().add(ft);
 
         //Only for testing purpose,
@@ -90,9 +89,9 @@ public class Main extends Application {
         ft.addEventFilter(MouseEvent.MOUSE_CLICKED, e ->
         {
             if (Tower == null) {
-                Tower = new ImageView(sniper);
-                Tower.setFitWidth(43);
-                Tower.setFitHeight(73);
+                Tower = new ImageView(magier);
+                Tower.setFitWidth(56);
+                Tower.setFitHeight(58);
 
                 Tower.setPreserveRatio(true);
                 root.getChildren().add(Tower);

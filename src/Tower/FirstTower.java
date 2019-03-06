@@ -20,12 +20,16 @@ public class FirstTower extends ImageView
     public FirstTower(double x,double y)
     {
 
-        this.setImage(new Image("https://banner2.kisspng.com/20180324/voe/kisspng-balloon-clip-art-blue-balloon-cliparts-5ab676069caae9.6687421615219072066417.jpg"));
+        try {
+            this.setImage(new Image(new FileInputStream("/Users/michael/Documents/3bHIT/SEW/Praxis/TowerDefense/src/img/Magier.png")));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         this.setVisible(true);
         this.setX(x);
         this.setY(y);
-        this.setFitWidth(43);
-        this.setFitHeight(73);
+        this.setFitWidth(56);
+        this.setFitHeight(58);
 
         HitBox = new Circle(150);
         HitBox.setVisible(false);
