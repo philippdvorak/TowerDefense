@@ -18,7 +18,7 @@ public class BaseEnemy extends ImageView {
         this.lives = 100;
         this.primaryStage = primaryStage;
         try {
-            this.setImage(new Image(new FileInputStream("/Users/michael/Downloads/balloon.png")));
+            this.setImage(new Image(new FileInputStream("https://banner2.kisspng.com/20180324/voe/kisspng-balloon-clip-art-blue-balloon-cliparts-5ab676069caae9.6687421615219072066417.jpg")));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
