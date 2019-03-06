@@ -9,11 +9,11 @@ import javafx.stage.Stage;
 //but could maybe be placed in this class again later on
 
 
-public class FirstTowerMenu extends Button
+public class MagierTowerMenu extends Button
 {
     Stage primaryStage;
 
-    public FirstTowerMenu(Stage primaryStage)
+    public MagierTowerMenu(Stage primaryStage)
     {
         this.primaryStage = primaryStage;
         this.setText("Sniper");

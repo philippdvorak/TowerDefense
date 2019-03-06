@@ -1,8 +1,8 @@
 package sample;
 
 import Enemy.BaseEnemy;
-import Tower.FirstTower;
-import Tower.FirstTowerMenu;
+import Tower.MagierTower;
+import Tower.MagierTowerMenu;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -23,11 +23,11 @@ import java.util.Vector;
 public class Main extends Application {
 
     private Vector<BaseEnemy> enemyVector= new Vector<>();
-    private Vector<FirstTower> towerVector = new Vector<>();
+    private Vector<MagierTower> towerVector = new Vector<>();
     private Group root;
     Image magier = new Image(new FileInputStream("./src/img/Magier.png"));
     ImageView Tower = null;
-    FirstTowerMenu ft, ft2;
+    MagierTowerMenu ft, ft2;
     private double tempX, tempY;
     VBox Menu = new VBox();
 
@@ -42,8 +42,8 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.setFullScreen(true);
         primaryStage.show();
-        ft = new FirstTowerMenu(primaryStage);
-        ft2 = new FirstTowerMenu(primaryStage);
+        ft = new MagierTowerMenu(primaryStage);
+        ft2 = new MagierTowerMenu(primaryStage);
         Menu.getChildren().add(ft);
 
         //Only for testing purpose,
@@ -57,7 +57,14 @@ public class Main extends Application {
         Thread t = new Thread(()->{
            while (true)
            {
-               Platform.runLater(()->root.getChildren().add(new BaseEnemy(primaryStage)));
+               BaseEnemy tmp = new BaseEnemy(primaryStage);
+
+               Platform.runLater(()->root.getChildren().add(tmp));
+
+               synchronized (this) {
+                   enemyVector.add(tmp);
+               }
+
                try {
                    Thread.sleep(3000);
                } catch (InterruptedException e) {
@@ -71,16 +78,12 @@ public class Main extends Application {
 
         addListener(primaryStage);
 
-        for(Node tmp : root.getChildren()){
-            if(tmp instanceof BaseEnemy) {
-                enemyVector.add((BaseEnemy) tmp);
-            }
-        }
-
         Thread killing = new Thread(() -> {
             while(true) {
-                for(FirstTower e : towerVector) {
-                    e.calcHitBox(enemyVector);
+                synchronized(this) {
+                    for (MagierTower e : towerVector) {
+                        e.calcHitBox(enemyVector);
+                    }
                 }
             }
         });
@@ -123,7 +126,10 @@ public class Main extends Application {
         {
             if (Tower != null)
             {
-                towerVector.add(new FirstTower(tempX,tempY));
+                synchronized(this) {
+                    towerVector.add(new MagierTower(tempX,tempY));
+                }
+
                 root.getChildren().add(towerVector.lastElement());
                 root.getChildren().add(towerVector.lastElement().getHitBox());
 

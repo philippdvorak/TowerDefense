@@ -14,14 +14,14 @@ import java.io.FileNotFoundException;
 import java.util.Vector;
 
 
-public class FirstTower extends ImageView
+public class MagierTower extends ImageView
 {
 
     //Adds an element of the first Tower which is static and can not be repositioned with the mouse again
 
     Circle HitBox;
 
-    public FirstTower(double x,double y)
+    public MagierTower(double x, double y)
     {
 
         try {
@@ -51,11 +51,11 @@ public class FirstTower extends ImageView
     }
 
     public void calcHitBox(Vector<BaseEnemy> m) {
-        for(BaseEnemy e : m) {
-            System.out.println("Outside of Intersects");
-            if(HitBox.intersects(e.getBoundsInLocal())) {
-                e.setLives(e.getLives()-10);
-                System.out.println("Shoot Enemy:" + e);
+        synchronized(this) {
+            for (BaseEnemy e : m) {
+                if (HitBox.intersects(e.getBoundsInLocal())) {
+                    e.setLives(e.getLives() - 10);
+                }
             }
         }
     }
