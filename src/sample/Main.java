@@ -26,7 +26,7 @@ public class Main extends Application {
     private Vector<BaseEnemy> enemyVector= new Vector<>();
     private Vector<FirstTower> towerVector = new Vector<>();
     private Group root;
-    Image magier = new Image(new FileInputStream("/Users/michael/Documents/3bHIT/SEW/Praxis/TowerDefense/src/img/Magier.png"));
+    Image magier = new Image(new FileInputStream("./src/img/Magier.png"));
     ImageView Tower = null;
     FirstTowerMenu ft, ft2;
     private double tempX, tempY;
@@ -79,7 +79,6 @@ public class Main extends Application {
         }
 
     }
-
 
     //Adds all listeners needed for the first Button
     private void addListener(Stage primaryStage)

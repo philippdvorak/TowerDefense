@@ -21,7 +21,7 @@ public class FirstTower extends ImageView
     {
 
         try {
-            this.setImage(new Image(new FileInputStream("/Users/michael/Documents/3bHIT/SEW/Praxis/TowerDefense/src/img/Magier.png")));
+            this.setImage(new Image(new FileInputStream("./src/img/Magier.png")));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
