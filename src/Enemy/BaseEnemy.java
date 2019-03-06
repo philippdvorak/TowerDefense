@@ -1,8 +1,11 @@
 package Enemy;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
@@ -11,11 +14,11 @@ import java.io.FileNotFoundException;
 
 public class BaseEnemy extends ImageView {
     private Stage primaryStage;
-    private int lives;
+    private SimpleIntegerProperty lives = new SimpleIntegerProperty();
     private double height, width;
 
     public BaseEnemy(Stage primaryStage) {
-        this.lives = 100;
+        this.lives.set(100);
         this.primaryStage = primaryStage;
         try {
             this.setImage(new Image(new FileInputStream("./src/img/Baloon.png")));
@@ -26,6 +29,8 @@ public class BaseEnemy extends ImageView {
         show();
 
         move();
+
+        addListeners();
     }
 
     private void show() {
@@ -37,16 +42,16 @@ public class BaseEnemy extends ImageView {
     }
 
     public int getLives() {
-        return lives;
+        return lives.get();
     }
 
     public void setLives(int lives) {
-        this.lives = lives;
+        this.lives.set(lives);
     }
 
     private void move() {
         Thread t = new Thread(() -> {
-            while(lives > 0 && this.getX() < primaryStage.getWidth()) {
+            while(lives.get() > 0 && this.getX() < primaryStage.getWidth()) {
                 Platform.runLater(() -> this.setX(this.getX() + 1));
                 Platform.runLater(() -> this.setY(this.getY()));
                 try {
@@ -60,5 +65,16 @@ public class BaseEnemy extends ImageView {
 
         t.setDaemon(true);
         t.start();
+    }
+
+
+    public void addListeners()
+    {
+        this.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println(lives);
+            }
+        });
     }
 }
