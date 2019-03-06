@@ -1,5 +1,8 @@
 package Tower;
 
+import Enemy.BaseEnemy;
+import com.sun.xml.internal.rngom.parse.host.Base;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -8,6 +11,7 @@ import javafx.scene.shape.Circle;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Vector;
 
 
 public class FirstTower extends ImageView
@@ -44,6 +48,16 @@ public class FirstTower extends ImageView
     //Return the HitBox off the Circle, is needed for intersection with the enemies
     public Circle getHitBox() {
         return HitBox;
+    }
+
+    public void calcHitBox(Vector<BaseEnemy> m) {
+        for(BaseEnemy e : m) {
+            System.out.println("Outside of Intersects");
+            if(HitBox.intersects(e.getBoundsInLocal())) {
+                e.setLives(e.getLives()-10);
+                System.out.println("Shoot Enemy:" + e);
+            }
+        }
     }
 
 
