@@ -67,10 +67,10 @@ public class MagierTower extends ImageView
         }
     }
 
-    public double calcAngle(double x, double y) {
+    private double calcAngle(double x, double y) {
         double angle = 0;
 
-        angle = Math.toDegrees(Math.atan2(x- this.getX(), y - this.getY()));
+        angle = Math.toDegrees(Math.atan2(x - this.getX(), y - this.getY()));
 
         return -angle + 180;
     }
