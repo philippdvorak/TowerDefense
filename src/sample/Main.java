@@ -46,11 +46,6 @@ public class Main extends Application {
         ft2 = new MagierTowerMenu(primaryStage);
         Menu.getChildren().add(ft);
 
-        //Only for testing purpose,
-        //is not important and does nothing when clicked
-        Menu.getChildren().add(ft2);
-
-
         root.getChildren().add(Menu);
 
         //Constant spawn of enemies
@@ -95,7 +90,6 @@ public class Main extends Application {
 
         killing.setDaemon(true);
         killing.start();
-
     }
 
     //Adds all listeners needed for the first Button

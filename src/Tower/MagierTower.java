@@ -54,6 +54,7 @@ public class MagierTower extends ImageView
         synchronized(this) {
             for (BaseEnemy e : m) {
                 if (HitBox.intersects(e.getBoundsInLocal())) {
+
                     e.setLives(e.getLives() - 10);
                     if(e.getLives() <= 0) {
                         m.remove(e);
@@ -89,5 +90,7 @@ public class MagierTower extends ImageView
 
         });
     }
+
+
 
 }

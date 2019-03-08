@@ -16,7 +16,7 @@ public class MagierTowerMenu extends Button
     public MagierTowerMenu(Stage primaryStage)
     {
         this.primaryStage = primaryStage;
-        this.setText("Sniper");
+        this.setText("Magier");
         this.setVisible(true);
         this.setPrefWidth(100);
     }
