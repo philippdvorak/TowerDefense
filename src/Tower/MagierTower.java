@@ -59,12 +59,21 @@ public class MagierTower extends ImageView
                         m.remove(e);
                     }
 
+                    this.setRotate(calcAngle(e.getX(), e.getY()));
+
                     return;
                 }
             }
         }
     }
 
+    public double calcAngle(double x, double y) {
+        double angle = 0;
+
+        angle = Math.toDegrees(Math.atan2(x- this.getX(), y - this.getY()));
+
+        return -angle + 180;
+    }
 
     public void addListeners()
     {
