@@ -55,6 +55,9 @@ public class MagierTower extends ImageView
             for (BaseEnemy e : m) {
                 if (HitBox.intersects(e.getBoundsInLocal())) {
 
+                    this.setRotate(calcAngle(e.getX(), e.getY()));
+
+
                     e.setLives(e.getLives() - 10);
                     if(e.getLives() <= 0) {
                         m.remove(e);
@@ -68,10 +71,8 @@ public class MagierTower extends ImageView
         }
     }
 
-    public double calcAngle(double x, double y) {
-        double angle = 0;
-
-        angle = Math.toDegrees(Math.atan2(x- this.getX(), y - this.getY()));
+    private double calcAngle(double x, double y) {
+        double angle = Math.toDegrees(Math.atan2(x - this.getX(), y - this.getY()));
 
         return -angle + 180;
     }
