@@ -76,9 +76,7 @@ public class MagierTower extends ImageView
 
         return -angle + 180;
     }
-
-    public void addListeners()
-    {
+    public void addListeners() {
         this.addEventFilter(MouseEvent.MOUSE_PRESSED, e ->
         {
             HitBox.setVisible(true);
