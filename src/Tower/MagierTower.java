@@ -26,10 +26,10 @@ public class MagierTower extends ImageView
     //Adds an element of the first Tower which is static and can not be repositioned with the mouse again
 
     Circle HitBox;
-    ImageView MagicShootTemp;
+    ImageView MagicShoot;
 
 
-    public MagierTower(double x, double y)
+    public MagierTower(double x, double y, Group root)
     {
 
         try {
@@ -39,10 +39,14 @@ public class MagierTower extends ImageView
         }
 
         try {
-            MagicShootTemp = new ImageView(new Image(new FileInputStream("./src/img/MagieBall.png")));
+            MagicShoot = new ImageView(new Image(new FileInputStream("./src/img/MagieBall.png")));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+        MagicShoot.setVisible(false);
+        root.getChildren().add(MagicShoot);
+
         this.setVisible(true);
         this.setX(x);
         this.setY(y);
@@ -67,11 +71,12 @@ public class MagierTower extends ImageView
 
     public void calcHitBox(Vector<BaseEnemy> m, Group root) {
 
+        Thread test = new Thread(()->{
             synchronized (this) {
                 for (BaseEnemy e : m) {
                     if (HitBox.intersects(e.getBoundsInLocal())) {
 
-                         this.setRotate(calcAngle(e.getX(), e.getY()));
+                        this.setRotate(calcAngle(e.getX(), e.getY()));
 
                         shoot(e,root);
 
@@ -89,12 +94,18 @@ public class MagierTower extends ImageView
                             m.remove(e);
                         }
 
-                         this.setRotate(calcAngle(e.getX(), e.getY()));
+                        this.setRotate(calcAngle(e.getX(), e.getY()));
 
                         break;
                     }
                 }
             }
+        });
+
+
+        test.setDaemon(true);
+        test.start();
+
 
 
 
@@ -125,9 +136,6 @@ public class MagierTower extends ImageView
 
         Thread t = new Thread(()->{
 
-            final ImageView MagicShoot = MagicShootTemp;
-            
-
             MagicShoot.setFitHeight(50);
             MagicShoot.setFitWidth(50);
             MagicShoot.setX(0);
@@ -136,45 +144,42 @@ public class MagierTower extends ImageView
             MagicShoot.setTranslateY(0);
             MagicShoot.setVisible(true);
 
-            FadeTransition fadeTransition =
-                    new FadeTransition(Duration.millis(300), MagicShoot);
-            fadeTransition.setFromValue(1.0f);
-            fadeTransition.setToValue(0.0f);
 
-            TranslateTransition translateTransition =
-                    new TranslateTransition(Duration.millis(300), MagicShoot);
-            translateTransition.setFromX(this.getX());
-            translateTransition.setToX(e.getX());
-            translateTransition.setFromY(this.getY());
-            translateTransition.setToY(e.getY());
+                FadeTransition fadeTransition =
+                        new FadeTransition(Duration.millis(300), MagicShoot);
+                fadeTransition.setFromValue(1.0f);
+                fadeTransition.setToValue(0.0f);
 
-
-            RotateTransition rotateTransition =
-                    new RotateTransition(Duration.millis(300), MagicShoot);
-            rotateTransition.setByAngle(180f);
-
-            ScaleTransition scaleTransition =
-                    new ScaleTransition(Duration.millis(300), MagicShoot);
-            scaleTransition.setToX(1.3f);
-            scaleTransition.setToY(1.3f);
+                TranslateTransition translateTransition =
+                        new TranslateTransition(Duration.millis(300), MagicShoot);
+                translateTransition.setFromX(this.getX());
+                translateTransition.setToX(e.getX());
+                translateTransition.setFromY(this.getY());
+                translateTransition.setToY(e.getY());
 
 
-            ParallelTransition parallelTransition = new ParallelTransition();
-            parallelTransition.getChildren().addAll(
-                    fadeTransition,
-                    translateTransition,
-                    rotateTransition,
-                    scaleTransition
-            );
-            parallelTransition.play();
+                RotateTransition rotateTransition =
+                        new RotateTransition(Duration.millis(300), MagicShoot);
+                rotateTransition.setByAngle(180f);
 
-            parallelTransition.setOnFinished(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    root.getChildren().remove(MagicShoot);
-                }
-            });
+                ScaleTransition scaleTransition =
+                        new ScaleTransition(Duration.millis(300), MagicShoot);
+                scaleTransition.setToX(1.3f);
+                scaleTransition.setToY(1.3f);
+
+
+                ParallelTransition parallelTransition = new ParallelTransition();
+                parallelTransition.getChildren().addAll(
+                        fadeTransition,
+                        translateTransition,
+                        rotateTransition,
+                        scaleTransition
+                );
+                parallelTransition.play();
+
+
         });
+        t.setDaemon(true);
         t.start();
 
 

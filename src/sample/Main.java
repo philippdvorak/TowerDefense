@@ -74,10 +74,10 @@ public class Main extends Application {
 
         Thread killing = new Thread(() -> {
             while(true) {
+                MagierTower etmp;
                 synchronized(this) {
                     for (MagierTower e : towerVector) {
                         e.calcHitBox(enemyVector, root);
-
                     }
                 }
 
@@ -122,7 +122,7 @@ public class Main extends Application {
                 if (Tower != null)
                 {
                     synchronized(this) {
-                        towerVector.add(new MagierTower(tempX,tempY));
+                        towerVector.add(new MagierTower(tempX,tempY, root));
                     }
 
                     root.getChildren().add(towerVector.lastElement());
