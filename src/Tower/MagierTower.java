@@ -14,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+import sample.Main;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -69,34 +70,38 @@ public class MagierTower extends ImageView
         return HitBox;
     }
 
-    public void calcHitBox(Vector<BaseEnemy> m, Group root) {
+    public void calcHitBox(Group root) {
 
         Thread test = new Thread(()->{
-            synchronized (this) {
-                for (BaseEnemy e : m) {
-                    if (HitBox.intersects(e.getBoundsInLocal())) {
+            while (true) {
 
-                        this.setRotate(calcAngle(e.getX(), e.getY()));
+                synchronized (this) {
+                    for (BaseEnemy e : Main.getEnemyVector()) {
+                        if (HitBox.intersects(e.getBoundsInLocal())) {
 
-                        shoot(e,root);
+                          this.setRotate(calcAngle(e.getX(), e.getY()));
+
+                         // shoot(e,root);
 
 
                         try {
-                            Thread.sleep(500);
-                        } catch (InterruptedException e2) {
-                            e2.printStackTrace();
-                        }
+                                Thread.sleep(500);
+                            } catch (InterruptedException e2) {
+                                e2.printStackTrace();
+                            }
 
+                            this.setRotate(calcAngle(e.getX(), e.getY()));
 
-                        e.setLives(e.getLives() - 10);
-                        if (e.getLives() <= 0) {
-                            e.setVisible(false);
-                            m.remove(e);
-                        }
+                            e.setLives(e.getLives() - 10);
 
-                        this.setRotate(calcAngle(e.getX(), e.getY()));
 
                         break;
+                        }
+
+                        if (e.getLives() <= 0) {
+                            e.setVisible(false);
+                            Main.getEnemyVector().remove(e);
+                        }
                     }
                 }
             }
@@ -112,9 +117,10 @@ public class MagierTower extends ImageView
     }
 
     private double calcAngle(double x, double y) {
-        double angle = Math.toDegrees(Math.atan2(x - this.getX(), y - this.getY()));
 
-        return -angle + 180;
+            double angle = Math.toDegrees(Math.atan2(x - this.getX(), y - this.getY()));
+            return -angle + 180;
+
     }
 
     public void addListeners() {
@@ -153,7 +159,9 @@ public class MagierTower extends ImageView
                 TranslateTransition translateTransition =
                         new TranslateTransition(Duration.millis(300), MagicShoot);
                 translateTransition.setFromX(this.getX());
+
                 translateTransition.setToX(e.getX());
+
                 translateTransition.setFromY(this.getY());
                 translateTransition.setToY(e.getY());
 

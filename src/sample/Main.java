@@ -22,7 +22,7 @@ import java.util.Vector;
 
 public class Main extends Application {
 
-    private Vector<BaseEnemy> enemyVector= new Vector<>();
+    static private Vector<BaseEnemy> enemyVector= new Vector<>();
     private Vector<MagierTower> towerVector = new Vector<>();
     private Group root;
     Image magier = new Image(new FileInputStream("./src/img/Magier.png"));
@@ -32,6 +32,10 @@ public class Main extends Application {
     VBox Menu = new VBox();
 
     public Main() throws FileNotFoundException {
+    }
+
+    static public Vector<BaseEnemy> getEnemyVector() {
+        return enemyVector;
     }
 
     @Override
@@ -52,11 +56,10 @@ public class Main extends Application {
         Thread t = new Thread(()->{
            while (true)
            {
-               BaseEnemy tmp = new BaseEnemy(primaryStage);
-               Platform.runLater(()->root.getChildren().add(tmp));
-
                synchronized (this) {
-                   enemyVector.add(tmp);
+                   enemyVector.add(new BaseEnemy(primaryStage));
+                   Platform.runLater(()->root.getChildren().add(enemyVector.lastElement()));
+
                }
 
                try {
@@ -72,9 +75,8 @@ public class Main extends Application {
 
         addListener(primaryStage);
 
-        Thread killing = new Thread(() -> {
+       /* Thread killing = new Thread(() -> {
             while(true) {
-                MagierTower etmp;
                 synchronized(this) {
                     for (MagierTower e : towerVector) {
                         e.calcHitBox(enemyVector, root);
@@ -85,7 +87,7 @@ public class Main extends Application {
         });
 
         killing.setDaemon(true);
-        killing.start();
+        killing.start();*/
     }
 
     //Adds all listeners needed for the first Button
@@ -111,8 +113,8 @@ public class Main extends Application {
                     Tower.setVisible(true);
                     tempX = MouseInfo.getPointerInfo().getLocation().x-(Tower.getFitWidth()/2);
                     tempY = MouseInfo.getPointerInfo().getLocation().y-(Tower.getFitHeight()/2);
-                    Tower.setX(MouseInfo.getPointerInfo().getLocation().x-(Tower.getFitWidth()/2));
-                    Tower.setY(MouseInfo.getPointerInfo().getLocation().y-(Tower.getFitHeight()/2));
+                   Tower.setX(MouseInfo.getPointerInfo().getLocation().x-(Tower.getFitWidth()/2));
+                   Tower.setY(MouseInfo.getPointerInfo().getLocation().y-(Tower.getFitHeight()/2));
                 }
             });
 
@@ -127,6 +129,7 @@ public class Main extends Application {
 
                     root.getChildren().add(towerVector.lastElement());
                     root.getChildren().add(towerVector.lastElement().getHitBox());
+                    towerVector.lastElement().calcHitBox(root);
 
                     root.getChildren().remove(Tower);
                     Tower = null;
