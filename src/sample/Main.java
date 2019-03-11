@@ -53,7 +53,6 @@ public class Main extends Application {
            while (true)
            {
                BaseEnemy tmp = new BaseEnemy(primaryStage);
-
                Platform.runLater(()->root.getChildren().add(tmp));
 
                synchronized (this) {
@@ -77,14 +76,11 @@ public class Main extends Application {
             while(true) {
                 synchronized(this) {
                     for (MagierTower e : towerVector) {
-                        e.calcHitBox(enemyVector);
+                        e.calcHitBox(enemyVector, root);
+
                     }
                 }
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
             }
         });
 
@@ -95,50 +91,56 @@ public class Main extends Application {
     //Adds all listeners needed for the first Button
     private void addListener(Stage primaryStage)
     {
-
-        //Listens to the click of the Button
-        ft.addEventFilter(MouseEvent.MOUSE_CLICKED, e ->
-        {
-            if (Tower == null) {
-                Tower = new ImageView(magier);
-                Tower.setFitWidth(56);
-                Tower.setFitHeight(58);
-
-                Tower.setPreserveRatio(true);
-                root.getChildren().add(Tower);
-            }
-        });
-
-        //Moves the Rectangle around on the screen
-        primaryStage.getScene().addEventHandler(MouseEvent.MOUSE_MOVED,e -> {
-            if (Tower != null) {
-                Tower.setVisible(true);
-                tempX = MouseInfo.getPointerInfo().getLocation().x-(Tower.getFitWidth()/2);
-                tempY = MouseInfo.getPointerInfo().getLocation().y-(Tower.getFitHeight()/2);
-                Tower.setX(MouseInfo.getPointerInfo().getLocation().x-(Tower.getFitWidth()/2));
-                Tower.setY(MouseInfo.getPointerInfo().getLocation().y-(Tower.getFitHeight()/2));
-            }
-        });
-
-        //Places the Rectangle on the clicked position
-        primaryStage.getScene().addEventHandler(MouseEvent.MOUSE_CLICKED, e ->
-        {
-            if (Tower != null)
+    //Listens to the click of the Button
+        Thread listenersThread = new Thread(()->{
+            ft.addEventFilter(MouseEvent.MOUSE_CLICKED, e ->
             {
-                synchronized(this) {
-                    towerVector.add(new MagierTower(tempX,tempY));
+                if (Tower == null) {
+                    Tower = new ImageView(magier);
+                    Tower.setFitWidth(56);
+                    Tower.setFitHeight(58);
+
+                    Tower.setPreserveRatio(true);
+                    root.getChildren().add(Tower);
                 }
+            });
 
-                root.getChildren().add(towerVector.lastElement());
-                root.getChildren().add(towerVector.lastElement().getHitBox());
+            //Moves the Rectangle around on the screen
+            primaryStage.getScene().addEventHandler(MouseEvent.MOUSE_MOVED,e -> {
+                if (Tower != null) {
+                    Tower.setVisible(true);
+                    tempX = MouseInfo.getPointerInfo().getLocation().x-(Tower.getFitWidth()/2);
+                    tempY = MouseInfo.getPointerInfo().getLocation().y-(Tower.getFitHeight()/2);
+                    Tower.setX(MouseInfo.getPointerInfo().getLocation().x-(Tower.getFitWidth()/2));
+                    Tower.setY(MouseInfo.getPointerInfo().getLocation().y-(Tower.getFitHeight()/2));
+                }
+            });
 
-                root.getChildren().remove(Tower);
-                Tower = null;
+            //Places the Rectangle on the clicked position
+            primaryStage.getScene().addEventHandler(MouseEvent.MOUSE_CLICKED, e ->
+            {
+                if (Tower != null)
+                {
+                    synchronized(this) {
+                        towerVector.add(new MagierTower(tempX,tempY));
+                    }
 
-                updateZIndex(root);
+                    root.getChildren().add(towerVector.lastElement());
+                    root.getChildren().add(towerVector.lastElement().getHitBox());
 
-            }
+                    root.getChildren().remove(Tower);
+                    Tower = null;
+
+                    updateZIndex(root);
+
+                }
+            });
         });
+        listenersThread.setDaemon(true);
+        listenersThread.start();
+
+
+
     }
 
     //Updates the z-index of the button, so the button always stays in the front
