@@ -68,8 +68,7 @@ public class BaseEnemy extends ImageView {
     }
 
 
-    public void addListeners()
-    {
+    public void addListeners() {
         this.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {

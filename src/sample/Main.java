@@ -54,8 +54,7 @@ public class Main extends Application {
 
         //Constant spawn of enemies
         Thread t = new Thread(()->{
-           while (true)
-           {
+           while (true) {
                synchronized (this) {
                    enemyVector.add(new BaseEnemy(primaryStage));
                    Platform.runLater(()->root.getChildren().add(enemyVector.lastElement()));
@@ -118,8 +117,7 @@ public class Main extends Application {
 
             //Places the Rectangle on the clicked position
             primaryStage.getScene().addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-                if (Tower != null)
-                {
+                if (Tower != null) {
                     towerVector.add(new MagierTower(tempX,tempY, root));
 
                     root.getChildren().add(towerVector.lastElement());
