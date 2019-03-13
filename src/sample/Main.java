@@ -18,11 +18,14 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Queue;
 import java.util.Vector;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Main extends Application {
 
-    static private Vector<BaseEnemy> enemyVector= new Vector<>();
+    static private Queue<BaseEnemy> enemyVector = new ConcurrentLinkedQueue<>();
     private Vector<MagierTower> towerVector = new Vector<>();
     private Group root;
     private Image magier = new Image(new FileInputStream("./src/img/Magier.png"));
@@ -30,12 +33,17 @@ public class Main extends Application {
     private MagierTowerMenu ft, ft2;
     private double tempX, tempY;
     private VBox Menu = new VBox();
+    static private Integer sync = new Integer(0);
 
     public Main() throws FileNotFoundException {
     }
 
-    synchronized static public Vector<BaseEnemy> getEnemyVector() {
+    static public Queue<BaseEnemy> getEnemyVector() {
         return enemyVector;
+    }
+
+    public static Integer getSync() {
+        return sync;
     }
 
     @Override
@@ -55,11 +63,9 @@ public class Main extends Application {
         //Constant spawn of enemies
         Thread t = new Thread(()->{
            while (true) {
-               synchronized (this) {
-                   enemyVector.add(new BaseEnemy(primaryStage));
-                   Platform.runLater(()->root.getChildren().add(enemyVector.lastElement()));
-
-               }
+               BaseEnemy enemy = new BaseEnemy(primaryStage);
+               enemyVector.add(enemy);
+               Platform.runLater(()->root.getChildren().add(enemy));
 
                try {
                    Thread.sleep(3000);

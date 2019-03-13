@@ -73,7 +73,6 @@ public class MagierTower extends ImageView
     public void calcHitBox() {
 
         Thread test = new Thread(()->{
-            synchronized (this) {
                 while (true) {
                     for (BaseEnemy e : Main.getEnemyVector()) {
                         if (HitBox.intersects(e.getBoundsInLocal())) {
@@ -112,7 +111,6 @@ public class MagierTower extends ImageView
                         }
                     }
                 }
-            }
         });
 
 
