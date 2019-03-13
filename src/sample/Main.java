@@ -73,20 +73,6 @@ public class Main extends Application {
 
 
         addListener(primaryStage);
-
-       /* Thread killing = new Thread(() -> {
-            while(true) {
-                synchronized(this) {
-                    for (MagierTower e : towerVector) {
-                        e.calcHitBox(enemyVector, root);
-                    }
-                }
-
-            }
-        });
-
-        killing.setDaemon(true);
-        killing.start();*/
     }
 
     //Adds all listeners needed for the first Button
