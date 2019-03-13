@@ -70,25 +70,16 @@ public class MagierTower extends ImageView
         return HitBox;
     }
 
-    public void calcHitBox() {
+    public void calcHitBox(Group root) {
 
         Thread test = new Thread(()->{
                 while (true) {
                     for (BaseEnemy e : Main.getEnemyVector()) {
                         if (HitBox.intersects(e.getBoundsInLocal())) {
 
-                          this.setRotate(calcAngle(e.getX(), e.getY()));
+                            Platform.runLater(() -> this.setRotate(calcAngle(e.getX(), e.getY())));
 
-                         // shoot(e,root);
-
-
-                        try {
-                                Thread.sleep(500);
-                            } catch (InterruptedException e2) {
-                                e2.printStackTrace();
-                            }
-
-                            this.setRotate(calcAngle(e.getX(), e.getY()));
+                            shoot(e,root);
 
                             e.setLives(e.getLives() - 10);
 
@@ -97,6 +88,12 @@ public class MagierTower extends ImageView
                                     e.setVisible(false);
                                     Main.getEnemyVector().remove(e);
                                 });
+                            }
+
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException e2) {
+                                e2.printStackTrace();
                             }
 
                             break;
@@ -143,58 +140,46 @@ public class MagierTower extends ImageView
         });
     }
 
-    public void shoot(BaseEnemy e, Group root)
-    {
+    public void shoot(BaseEnemy e, Group root) {
 
-        Thread t = new Thread(()->{
-
-            MagicShoot.setFitHeight(50);
-            MagicShoot.setFitWidth(50);
-            MagicShoot.setX(0);
-            MagicShoot.setY(0);
-            MagicShoot.setTranslateX(0);
-            MagicShoot.setTranslateY(0);
-            MagicShoot.setVisible(true);
+        MagicShoot.setFitHeight(50);
+        MagicShoot.setFitWidth(50);
+        MagicShoot.setX(0);
+        MagicShoot.setY(0);
+        MagicShoot.setTranslateX(0);
+        MagicShoot.setTranslateY(0);
+        MagicShoot.setVisible(true);
 
 
-                FadeTransition fadeTransition =
-                        new FadeTransition(Duration.millis(300), MagicShoot);
-                fadeTransition.setFromValue(1.0f);
-                fadeTransition.setToValue(0.0f);
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(300), MagicShoot);
+        fadeTransition.setFromValue(1.0f);
+        fadeTransition.setToValue(0.0f);
 
-                TranslateTransition translateTransition =
-                        new TranslateTransition(Duration.millis(300), MagicShoot);
-                translateTransition.setFromX(this.getX());
+        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(300), MagicShoot);
+        translateTransition.setFromX(this.getX());
 
-                translateTransition.setToX(e.getX());
+        translateTransition.setToX(e.getX());
 
-                translateTransition.setFromY(this.getY());
-                translateTransition.setToY(e.getY());
+        translateTransition.setFromY(this.getY());
+        translateTransition.setToY(e.getY());
 
 
-                RotateTransition rotateTransition =
-                        new RotateTransition(Duration.millis(300), MagicShoot);
-                rotateTransition.setByAngle(180f);
+        RotateTransition rotateTransition = new RotateTransition(Duration.millis(300), MagicShoot);
+        rotateTransition.setByAngle(180f);
 
-                ScaleTransition scaleTransition =
-                        new ScaleTransition(Duration.millis(300), MagicShoot);
-                scaleTransition.setToX(1.3f);
-                scaleTransition.setToY(1.3f);
+        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(300), MagicShoot);
+        scaleTransition.setToX(1.3f);
+        scaleTransition.setToY(1.3f);
 
 
-                ParallelTransition parallelTransition = new ParallelTransition();
-                parallelTransition.getChildren().addAll(
-                        fadeTransition,
-                        translateTransition,
-                        rotateTransition,
-                        scaleTransition
-                );
-                parallelTransition.play();
-
-
-        });
-        t.setDaemon(true);
-        t.start();
+        ParallelTransition parallelTransition = new ParallelTransition();
+        parallelTransition.getChildren().addAll(
+                fadeTransition,
+                translateTransition,
+                rotateTransition,
+                scaleTransition
+        );
+        parallelTransition.play();
 
 
     }

@@ -115,7 +115,7 @@ public class Main extends Application {
                     root.getChildren().add(towerVector.lastElement());
                     root.getChildren().add(towerVector.lastElement().getHitBox());
 
-                    towerVector.lastElement().calcHitBox();
+                    towerVector.lastElement().calcHitBox(root);
 
                     root.getChildren().remove(Tower);
                     Tower = null;
