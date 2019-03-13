@@ -34,7 +34,7 @@ public class Main extends Application {
     public Main() throws FileNotFoundException {
     }
 
-    static public Vector<BaseEnemy> getEnemyVector() {
+    synchronized static public Vector<BaseEnemy> getEnemyVector() {
         return enemyVector;
     }
 
@@ -125,10 +125,11 @@ public class Main extends Application {
                 {
                     synchronized(this) {
                         towerVector.add(new MagierTower(tempX,tempY, root));
-                    }
 
                     root.getChildren().add(towerVector.lastElement());
                     root.getChildren().add(towerVector.lastElement().getHitBox());
+
+                    }
                     towerVector.lastElement().calcHitBox(root);
 
                     root.getChildren().remove(Tower);

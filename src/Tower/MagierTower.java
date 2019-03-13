@@ -74,7 +74,6 @@ public class MagierTower extends ImageView
 
         Thread test = new Thread(()->{
             while (true) {
-
                 synchronized (this) {
                     for (BaseEnemy e : Main.getEnemyVector()) {
                         if (HitBox.intersects(e.getBoundsInLocal())) {
@@ -95,13 +94,18 @@ public class MagierTower extends ImageView
                             e.setLives(e.getLives() - 10);
 
 
-                        break;
+
                         }
 
-                        if (e.getLives() <= 0) {
-                            e.setVisible(false);
-                            Main.getEnemyVector().remove(e);
-                        }
+
+                            if (e.getLives() <= 0) {
+                                Platform.runLater(()->{
+
+                                    e.setVisible(false);
+                                Main.getEnemyVector().remove(e);
+                                });
+                            }
+                        break;
                     }
                 }
             }
