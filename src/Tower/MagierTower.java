@@ -1,12 +1,8 @@
 package Tower;
 
 import Enemy.BaseEnemy;
-import com.sun.tools.corba.se.idl.ExceptionEntry;
-import com.sun.xml.internal.rngom.parse.host.Base;
 import javafx.animation.*;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,8 +14,6 @@ import sample.Main;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Vector;
-
 
 public class MagierTower extends ImageView
 {
