@@ -51,7 +51,7 @@ public class BaseEnemy extends ImageView {
 
     private void move() {
         Thread t = new Thread(() -> {
-            while(lives.get() > 0 && this.getX() < primaryStage.getWidth()) {
+            while(this.getX() < primaryStage.getWidth()) {
                 Platform.runLater(() -> this.setX(this.getX() + 1));
                 Platform.runLater(() -> this.setY(this.getY()));
                 try {

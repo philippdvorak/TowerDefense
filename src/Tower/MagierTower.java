@@ -70,11 +70,11 @@ public class MagierTower extends ImageView
         return HitBox;
     }
 
-    public void calcHitBox(Group root) {
+    public void calcHitBox() {
 
         Thread test = new Thread(()->{
-            while (true) {
-                synchronized (this) {
+            synchronized (this) {
+                while (true) {
                     for (BaseEnemy e : Main.getEnemyVector()) {
                         if (HitBox.intersects(e.getBoundsInLocal())) {
 
@@ -93,19 +93,23 @@ public class MagierTower extends ImageView
 
                             e.setLives(e.getLives() - 10);
 
+                            if (e.getLives() <= 0) {
+                                Platform.runLater(() -> {
+                                    e.setVisible(false);
+                                    Main.getEnemyVector().remove(e);
+                                });
+                            }
 
-
+                            break;
                         }
 
 
-                            if (e.getLives() <= 0) {
-                                Platform.runLater(()->{
-
-                                    e.setVisible(false);
+                        if (e.getLives() <= 0) {
+                            Platform.runLater(() -> {
+                                e.setVisible(false);
                                 Main.getEnemyVector().remove(e);
-                                });
-                            }
-                        break;
+                            });
+                        }
                     }
                 }
             }

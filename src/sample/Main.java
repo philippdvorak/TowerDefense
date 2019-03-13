@@ -25,11 +25,11 @@ public class Main extends Application {
     static private Vector<BaseEnemy> enemyVector= new Vector<>();
     private Vector<MagierTower> towerVector = new Vector<>();
     private Group root;
-    Image magier = new Image(new FileInputStream("./src/img/Magier.png"));
-    ImageView Tower = null;
-    MagierTowerMenu ft, ft2;
+    private Image magier = new Image(new FileInputStream("./src/img/Magier.png"));
+    private ImageView Tower = null;
+    private MagierTowerMenu ft, ft2;
     private double tempX, tempY;
-    VBox Menu = new VBox();
+    private VBox Menu = new VBox();
 
     public Main() throws FileNotFoundException {
     }
@@ -91,12 +91,10 @@ public class Main extends Application {
     }
 
     //Adds all listeners needed for the first Button
-    private void addListener(Stage primaryStage)
-    {
+    private void addListener(Stage primaryStage) {
     //Listens to the click of the Button
         Thread listenersThread = new Thread(()->{
-            ft.addEventFilter(MouseEvent.MOUSE_CLICKED, e ->
-            {
+            ft.addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
                 if (Tower == null) {
                     Tower = new ImageView(magier);
                     Tower.setFitWidth(56);
@@ -119,18 +117,15 @@ public class Main extends Application {
             });
 
             //Places the Rectangle on the clicked position
-            primaryStage.getScene().addEventHandler(MouseEvent.MOUSE_CLICKED, e ->
-            {
+            primaryStage.getScene().addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
                 if (Tower != null)
                 {
-                    synchronized(this) {
-                        towerVector.add(new MagierTower(tempX,tempY, root));
+                    towerVector.add(new MagierTower(tempX,tempY, root));
 
                     root.getChildren().add(towerVector.lastElement());
                     root.getChildren().add(towerVector.lastElement().getHitBox());
 
-                    }
-                    towerVector.lastElement().calcHitBox(root);
+                    towerVector.lastElement().calcHitBox();
 
                     root.getChildren().remove(Tower);
                     Tower = null;
@@ -142,9 +137,6 @@ public class Main extends Application {
         });
         listenersThread.setDaemon(true);
         listenersThread.start();
-
-
-
     }
 
     //Updates the z-index of the button, so the button always stays in the front
