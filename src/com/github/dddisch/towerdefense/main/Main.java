@@ -37,6 +37,7 @@ public class Main extends Application {
     public Main() throws FileNotFoundException {
     }
 
+
     static public Queue<BaseEnemy> getEnemyVector() {
         return enemyVector;
     }
