@@ -88,7 +88,7 @@ public class Main extends Application {
         showMoney.setLayoutX(primaryStage.getWidth()-30);
         showMoney.setVisible(true);
         root.getChildren().add(showMoney);
-        money.set(300);
+        money.set(260);
         showMoney.setText("$" + Integer.toString(money.get()));
 
 
@@ -101,7 +101,7 @@ public class Main extends Application {
 
         //Constant spawn of enemies
         Thread t = new Thread(()->{
-            int spawnTime = 3000;
+            int spawnTime = 5000;
             int spawnCount = 5;
            while (true) {
 
@@ -121,7 +121,7 @@ public class Main extends Application {
                if (spawnTime >= 400)
                {
                    spawnCount =(int)(spawnCount * 1.2);
-                   spawnTime = (int)(spawnTime * 0.9);
+                   spawnTime = (int)(spawnTime * 0.85);
                }
            }
         });

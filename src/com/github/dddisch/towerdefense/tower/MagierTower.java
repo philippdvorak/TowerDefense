@@ -140,10 +140,17 @@ public class MagierTower extends ImageView
             TranslateTransition translateTransition = new TranslateTransition(Duration.millis(300), magicShoot);
             translateTransition.setFromX(this.getX());
 
-            translateTransition.setToX(e.getX());
+            if(e.getX()>= 0)
+            {
+                translateTransition.setToX(e.getX());
+            }
 
             translateTransition.setFromY(this.getY());
-            translateTransition.setToY(e.getY());
+
+            if(e.getY() >= 0)
+            {
+                translateTransition.setToY(e.getY());
+            }
 
 
             RotateTransition rotateTransition = new RotateTransition(Duration.millis(300), magicShoot);
@@ -161,8 +168,8 @@ public class MagierTower extends ImageView
                     rotateTransition,
                     scaleTransition
             );
-            magicShoot.setVisible(true);
             parallelTransition.play();
+            magicShoot.setVisible(true);
 
 
     }
