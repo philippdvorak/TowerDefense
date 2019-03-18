@@ -1,6 +1,8 @@
 package com.github.dddisch.towerdefense.tower;
 
 import com.github.dddisch.towerdefense.enemy.BaseEnemy;
+import com.github.dddisch.towerdefense.enemy.BaseEnemy;
+import com.github.dddisch.towerdefense.main.Main;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -10,7 +12,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
-import com.github.dddisch.towerdefense.main.Main;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -75,7 +76,7 @@ public class MagierTower extends ImageView
 
                             Platform.runLater(() -> this.setRotate(calcAngle(e.getX(), e.getY())));
 
-                            //shoot(e,root);
+                            shoot(e,root);
 
                             e.setLives(e.getLives() - 10);
 
@@ -169,6 +170,7 @@ public class MagierTower extends ImageView
             );
             magicShoot.setVisible(true);
             parallelTransition.play();
+
 
     }
 
