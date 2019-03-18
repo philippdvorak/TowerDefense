@@ -3,25 +3,21 @@ package com.github.dddisch.towerdefense.main;
 import com.github.dddisch.towerdefense.enemy.BaseEnemy;
 import com.github.dddisch.towerdefense.tower.MagierTower;
 import com.github.dddisch.towerdefense.tower.MagierTowerMenu;
-
+import com.github.dddisch.towerdefense.utils.imageloader.ImageLoader;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.awt.*;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.Queue;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -29,21 +25,16 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Main extends Application {
 
     static private Queue<BaseEnemy> enemyVector = new ConcurrentLinkedQueue<>();
+
     private Vector<MagierTower> towerVector = new Vector<>();
     private Group root;
-    private Image magier = new Image(new FileInputStream("./res/img/Magier.png"));
     private ImageView tower = null;
     private MagierTowerMenu ft, ft2;
     private double tempX, tempY;
     private VBox menu = new VBox();
     static private Integer sync = 0;
-    static SimpleIntegerProperty money = new SimpleIntegerProperty();
+    static IntegerProperty money = new SimpleIntegerProperty();
     Label showMoney = new Label();
-
-
-    public Main() throws FileNotFoundException {
-    }
-
 
     static public Queue<BaseEnemy> getEnemyVector() {
         return enemyVector;
@@ -57,7 +48,7 @@ public class Main extends Application {
         return money.get();
     }
 
-    static public SimpleIntegerProperty moneyProperty() {
+    static public IntegerProperty moneyProperty() {
         return money;
     }
 
@@ -74,13 +65,7 @@ public class Main extends Application {
         primaryStage.setFullScreen(true);
         primaryStage.show();
 
-        Image image = null;
-        try {
-            image = new Image(new FileInputStream("./res/img/background.png"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        ImageView back = new ImageView(image);
+        ImageView back = ImageLoader.loadImageView("background");
         back.setFitWidth(primaryStage.getWidth());
         back.setFitHeight(primaryStage.getHeight());
         root.getChildren().add(back);
@@ -89,7 +74,7 @@ public class Main extends Application {
         showMoney.setVisible(true);
         root.getChildren().add(showMoney);
         money.set(350);
-        showMoney.setText("$" + Integer.toString(money.get()));
+        showMoney.setText("$" + money.get());
 
 
 
@@ -140,11 +125,11 @@ public class Main extends Application {
     //Listens to the click of the Button
             ft.addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
                     if (tower == null) {
-                        tower = new ImageView(magier);
+                        tower = ImageLoader.loadImageView("towers::magier::");
                         tower.setFitWidth(56);
                         tower.setFitHeight(58);
                 if (tower == null) {
-                    tower = new ImageView(magier);
+                    tower = ImageLoader.loadImageView("towers:magier::");
                     tower.setFitWidth(56);
                     tower.setFitHeight(58);
 
@@ -161,11 +146,11 @@ public class Main extends Application {
 
             if (tower != null) {
                 tower.setVisible(true);
-                tempX = MouseInfo.getPointerInfo().getLocation().x - (tower.getFitWidth() / 2);
-                tempY = MouseInfo.getPointerInfo().getLocation().y - (tower.getFitHeight() / 2);
+                tempX = e.getSceneX() - (tower.getFitWidth() / 2);
+                tempY = e.getSceneY() - (tower.getFitHeight() / 2);
                 Platform.runLater(() -> {
-                    tower.setX(MouseInfo.getPointerInfo().getLocation().x - (tower.getFitWidth() / 2));
-                    tower.setY(MouseInfo.getPointerInfo().getLocation().y - (tower.getFitHeight() / 2));
+                    tower.setX(e.getSceneX() - (tower.getFitWidth() / 2));
+                    tower.setY(e.getSceneY() - (tower.getFitHeight() / 2));
                 });
 
             }
@@ -191,18 +176,13 @@ public class Main extends Application {
                 }
             });
 
-            money.addListener(new ChangeListener<Number>() {
-                @Override
-                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                    showMoney.setText("$" + Integer.toString(money.get()));
-                }
-            });
+            showMoney.textProperty().bind(Bindings.concat("$", money.asString()));
 
     }
 
     /**
      * Updates the z-index of the button, so the button always stays in the front
-     * Could also be used for other elements which needs to stay in the front
+     * Could also be used for other elements which need to stay in the front
      *
      * @param root the group, whose elements shall be reordered
      */

@@ -1,20 +1,16 @@
 package com.github.dddisch.towerdefense.tower;
 
 import com.github.dddisch.towerdefense.enemy.BaseEnemy;
-import com.github.dddisch.towerdefense.enemy.BaseEnemy;
 import com.github.dddisch.towerdefense.main.Main;
+import com.github.dddisch.towerdefense.utils.imageloader.ImageLoader;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.scene.Group;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 /**
  * Adds an element of the first tower which is static and can not be repositioned with the mouse again
@@ -29,18 +25,8 @@ public class MagierTower extends ImageView
 
     public MagierTower(double x, double y, Group root)
     {
-
-        try {
-            this.setImage(new Image(new FileInputStream("./res/img/Magier.png")));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            magicShoot = new ImageView(new Image(new FileInputStream("./res/img/MagieBall.png")));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        this.setImage(ImageLoader.loadImage("towers::magier::"));
+        magicShoot = ImageLoader.loadImageView("towers::magier::missile");
 
         magicShoot.setVisible(false);
         root.getChildren().add(magicShoot);
@@ -173,11 +159,9 @@ public class MagierTower extends ImageView
         catch (ArrayIndexOutOfBoundsException outOfBounds)
         {
             System.out.println("IndexOutOfBounds");
-            return;
         }
         catch(NullPointerException ignored) {
             System.out.println("Null");
-            return;
         }
 
 
