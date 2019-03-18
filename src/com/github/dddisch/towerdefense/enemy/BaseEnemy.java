@@ -1,4 +1,4 @@
-package Enemy;
+package com.github.dddisch.towerdefense.enemy;
 
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -21,7 +21,7 @@ public class BaseEnemy extends ImageView {
         this.lives.set(100);
         this.primaryStage = primaryStage;
         try {
-            this.setImage(new Image(new FileInputStream("./src/img/Baloon.png")));
+            this.setImage(new Image(new FileInputStream("./res/img/Baloon.png")));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -68,12 +68,7 @@ public class BaseEnemy extends ImageView {
     }
 
 
-    public void addListeners() {
-        this.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.println(lives);
-            }
-        });
+    private void addListeners() {
+        this.setOnMouseClicked(event -> System.out.println(lives));
     }
 }

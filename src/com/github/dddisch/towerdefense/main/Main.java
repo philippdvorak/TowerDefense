@@ -1,8 +1,8 @@
-package sample;
+package com.github.dddisch.towerdefense.main;
 
-import Enemy.BaseEnemy;
-import Tower.MagierTower;
-import Tower.MagierTowerMenu;
+import com.github.dddisch.towerdefense.enemy.BaseEnemy;
+import com.github.dddisch.towerdefense.tower.MagierTower;
+import com.github.dddisch.towerdefense.tower.MagierTowerMenu;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -21,19 +21,18 @@ import java.io.FileNotFoundException;
 import java.util.Queue;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class Main extends Application {
 
     static private Queue<BaseEnemy> enemyVector = new ConcurrentLinkedQueue<>();
     private Vector<MagierTower> towerVector = new Vector<>();
     private Group root;
-    private Image magier = new Image(new FileInputStream("./src/img/Magier.png"));
-    private ImageView Tower = null;
+    private Image magier = new Image(new FileInputStream("./res/img/Magier.png"));
+    private ImageView tower = null;
     private MagierTowerMenu ft, ft2;
     private double tempX, tempY;
-    private VBox Menu = new VBox();
-    static private Integer sync = new Integer(0);
+    private VBox menu = new VBox();
+    static private Integer sync = 0;
 
     public Main() throws FileNotFoundException {
     }
@@ -50,15 +49,15 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         root = new Group();
 
-        primaryStage.setTitle("Tower Defense");
+        primaryStage.setTitle("tower Defense");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.setFullScreen(true);
         primaryStage.show();
         ft = new MagierTowerMenu(primaryStage);
         ft2 = new MagierTowerMenu(primaryStage);
-        Menu.getChildren().add(ft);
+        menu.getChildren().add(ft);
 
-        root.getChildren().add(Menu);
+        root.getChildren().add(menu);
 
         //Constant spawn of enemies
         Thread t = new Thread(()->{
@@ -81,7 +80,10 @@ public class Main extends Application {
         addListener(primaryStage);
     }
 
-    //Adds all listeners needed for the first Button
+    /**
+     * Adds all listeners needed for the first Button
+     * @param primaryStage stage, which the listeners shall be registered on
+     */
     private void addListener(Stage primaryStage) {
     //Listens to the click of the Button
             ft.addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
@@ -89,10 +91,17 @@ public class Main extends Application {
                         Tower = new ImageView(magier);
                         Tower.setFitWidth(56);
                         Tower.setFitHeight(58);
+                if (tower == null) {
+                    tower = new ImageView(magier);
+                    tower.setFitWidth(56);
+                    tower.setFitHeight(58);
 
                         Tower.setPreserveRatio(true);
                         root.getChildren().add(Tower);
                     }
+                    tower.setPreserveRatio(true);
+                    root.getChildren().add(tower);
+                }
             });
 
             //Moves the Rectangle around on the screen
@@ -110,10 +119,18 @@ public class Main extends Application {
             }
 
         });
+                if (tower != null) {
+                    tower.setVisible(true);
+                    tempX = MouseInfo.getPointerInfo().getLocation().x-(tower.getFitWidth()/2);
+                    tempY = MouseInfo.getPointerInfo().getLocation().y-(tower.getFitHeight()/2);
+                   tower.setX(MouseInfo.getPointerInfo().getLocation().x-(tower.getFitWidth()/2));
+                   tower.setY(MouseInfo.getPointerInfo().getLocation().y-(tower.getFitHeight()/2));
+                }
+            });
 
             //Places the Rectangle on the clicked position
             primaryStage.getScene().addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-                if (Tower != null) {
+                if (tower != null) {
                     towerVector.add(new MagierTower(tempX,tempY, root));
 
                     root.getChildren().add(towerVector.lastElement());
@@ -121,8 +138,8 @@ public class Main extends Application {
 
                     towerVector.lastElement().calcHitBox(root);
 
-                    root.getChildren().remove(Tower);
-                    Tower = null;
+                    root.getChildren().remove(tower);
+                    tower = null;
 
                     updateZIndex(root);
 
@@ -131,9 +148,13 @@ public class Main extends Application {
 
     }
 
-    //Updates the z-index of the button, so the button always stays in the front
-    //Could also be used for other elements which needs to stay in the front
-    public static void updateZIndex(Group root) {
+    /**
+     * Updates the z-index of the button, so the button always stays in the front
+     * Could also be used for other elements which needs to stay in the front
+     *
+     * @param root the group, whose elements shall be reordered
+     */
+    private static void updateZIndex(Group root) {
         Vector<Integer> atr = new Vector<>();
         Vector<Node> b = new Vector<>();
         int i = 0;
