@@ -125,6 +125,14 @@ public class MagierTower extends ImageView
 
     private void shoot(BaseEnemy e) {
 
+        try {
+
+        }
+        catch (Exception outOfBounds)
+        {
+            System.out.println();
+        }
+
             magicShoot.setFitHeight(50);
             magicShoot.setFitWidth(50);
             magicShoot.setX(0);
@@ -140,26 +148,13 @@ public class MagierTower extends ImageView
             TranslateTransition translateTransition = new TranslateTransition(Duration.millis(300), magicShoot);
             translateTransition.setFromX(this.getX());
 
-        System.out.println(e.getX());
-            if(e.getX()>= 0)
-            {
-                translateTransition.setToX(e.getX());
-            }
-            else
-            {
-                return;
-            }
+            if(e.getX()>= 0) { translateTransition.setToX(e.getX()); }
+            else { return; }
 
             translateTransition.setFromY(this.getY());
 
-            if(e.getY() >= 0)
-            {
-                translateTransition.setToY(e.getY());
-            }
-            else
-            {
-                return;
-            }
+            if(e.getY() >= 0) { translateTransition.setToY(e.getY()); }
+            else { return; }
 
 
             RotateTransition rotateTransition = new RotateTransition(Duration.millis(300), magicShoot);
