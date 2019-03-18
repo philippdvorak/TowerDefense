@@ -88,17 +88,17 @@ public class Main extends Application {
     private void addListener(Stage primaryStage) {
     //Listens to the click of the Button
             ft.addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
-                    if (Tower == null) {
-                        Tower = new ImageView(magier);
-                        Tower.setFitWidth(56);
-                        Tower.setFitHeight(58);
+                    if (tower == null) {
+                        tower = new ImageView(magier);
+                        tower.setFitWidth(56);
+                        tower.setFitHeight(58);
                 if (tower == null) {
                     tower = new ImageView(magier);
                     tower.setFitWidth(56);
                     tower.setFitHeight(58);
 
-                        Tower.setPreserveRatio(true);
-                        root.getChildren().add(Tower);
+                        tower.setPreserveRatio(true);
+                        root.getChildren().add(tower);
                     }
                     tower.setPreserveRatio(true);
                     root.getChildren().add(tower);
@@ -108,26 +108,25 @@ public class Main extends Application {
             //Moves the Rectangle around on the screen
             primaryStage.getScene().addEventHandler(MouseEvent.MOUSE_MOVED,e -> {
 
-            if (Tower != null) {
-                Tower.setVisible(true);
-                tempX = MouseInfo.getPointerInfo().getLocation().x - (Tower.getFitWidth() / 2);
-                tempY = MouseInfo.getPointerInfo().getLocation().y - (Tower.getFitHeight() / 2);
+            if (tower != null) {
+                tower.setVisible(true);
+                tempX = MouseInfo.getPointerInfo().getLocation().x - (tower.getFitWidth() / 2);
+                tempY = MouseInfo.getPointerInfo().getLocation().y - (tower.getFitHeight() / 2);
                 Platform.runLater(() -> {
-                    Tower.setX(MouseInfo.getPointerInfo().getLocation().x - (Tower.getFitWidth() / 2));
-                    Tower.setY(MouseInfo.getPointerInfo().getLocation().y - (Tower.getFitHeight() / 2));
+                    tower.setX(MouseInfo.getPointerInfo().getLocation().x - (tower.getFitWidth() / 2));
+                    tower.setY(MouseInfo.getPointerInfo().getLocation().y - (tower.getFitHeight() / 2));
                 });
 
             }
 
         });
-                if (tower != null) {
-                    tower.setVisible(true);
-                    tempX = MouseInfo.getPointerInfo().getLocation().x-(tower.getFitWidth()/2);
-                    tempY = MouseInfo.getPointerInfo().getLocation().y-(tower.getFitHeight()/2);
-                   tower.setX(MouseInfo.getPointerInfo().getLocation().x-(tower.getFitWidth()/2));
-                   tower.setY(MouseInfo.getPointerInfo().getLocation().y-(tower.getFitHeight()/2));
-                }
-            });
+            if (tower != null) {
+                tower.setVisible(true);
+                tempX = MouseInfo.getPointerInfo().getLocation().x-(tower.getFitWidth()/2);
+                tempY = MouseInfo.getPointerInfo().getLocation().y-(tower.getFitHeight()/2);
+               tower.setX(MouseInfo.getPointerInfo().getLocation().x-(tower.getFitWidth()/2));
+               tower.setY(MouseInfo.getPointerInfo().getLocation().y-(tower.getFitHeight()/2));
+            }
 
             //Places the Rectangle on the clicked position
             primaryStage.getScene().addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {

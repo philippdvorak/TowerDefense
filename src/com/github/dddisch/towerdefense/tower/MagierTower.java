@@ -1,6 +1,7 @@
 package com.github.dddisch.towerdefense.tower;
 
-import Enemy.BaseEnemy;
+import com.github.dddisch.towerdefense.enemy.BaseEnemy;
+import com.github.dddisch.towerdefense.main.Main;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -10,7 +11,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
-import com.github.dddisch.towerdefense.main.Main;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -131,12 +131,12 @@ public class MagierTower extends ImageView
 
     private void shoot(BaseEnemy e, Group root) {
 
-        MagicShoot.setFitHeight(50);
-        MagicShoot.setFitWidth(50);
-        MagicShoot.setX(0);
-        MagicShoot.setY(0);
-        MagicShoot.setTranslateX(0);
-        MagicShoot.setTranslateY(0);
+        magicShoot.setFitHeight(50);
+        magicShoot.setFitWidth(50);
+        magicShoot.setX(0);
+        magicShoot.setY(0);
+        magicShoot.setTranslateX(0);
+        magicShoot.setTranslateY(0);
 
 
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(300), magicShoot);
@@ -167,7 +167,7 @@ public class MagierTower extends ImageView
                 rotateTransition,
                 scaleTransition
         );
-        MagicShoot.setVisible(true);
+        magicShoot.setVisible(true);
         parallelTransition.play();
 
 
