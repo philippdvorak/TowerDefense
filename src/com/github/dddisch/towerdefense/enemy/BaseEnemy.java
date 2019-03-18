@@ -38,7 +38,7 @@ public class BaseEnemy extends ImageView {
         this.setFitHeight(71);
 
         this.setX(0);
-        this.setY(200);
+        this.setY(primaryStage.getHeight()/2-35);
     }
 
     public int getLives() {

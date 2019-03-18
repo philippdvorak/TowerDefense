@@ -1,6 +1,6 @@
 package com.github.dddisch.towerdefense.tower;
 
-import Enemy.BaseEnemy;
+import com.github.dddisch.towerdefense.enemy.BaseEnemy;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -75,7 +75,7 @@ public class MagierTower extends ImageView
 
                             Platform.runLater(() -> this.setRotate(calcAngle(e.getX(), e.getY())));
 
-                            shoot(e,root);
+                            //shoot(e,root);
 
                             e.setLives(e.getLives() - 10);
 
@@ -131,45 +131,44 @@ public class MagierTower extends ImageView
 
     private void shoot(BaseEnemy e, Group root) {
 
-        MagicShoot.setFitHeight(50);
-        MagicShoot.setFitWidth(50);
-        MagicShoot.setX(0);
-        MagicShoot.setY(0);
-        MagicShoot.setTranslateX(0);
-        MagicShoot.setTranslateY(0);
+            magicShoot.setFitHeight(50);
+            magicShoot.setFitWidth(50);
+            magicShoot.setX(0);
+            magicShoot.setY(0);
+            magicShoot.setTranslateX(0);
+            magicShoot.setTranslateY(0);
 
 
-        FadeTransition fadeTransition = new FadeTransition(Duration.millis(300), magicShoot);
-        fadeTransition.setFromValue(1.0f);
-        fadeTransition.setToValue(0.0f);
+            FadeTransition fadeTransition = new FadeTransition(Duration.millis(300), magicShoot);
+            fadeTransition.setFromValue(1.0f);
+            fadeTransition.setToValue(0.0f);
 
-        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(300), magicShoot);
-        translateTransition.setFromX(this.getX());
+            TranslateTransition translateTransition = new TranslateTransition(Duration.millis(300), magicShoot);
+            translateTransition.setFromX(this.getX());
 
-        translateTransition.setToX(e.getX());
+            translateTransition.setToX(e.getX());
 
-        translateTransition.setFromY(this.getY());
-        translateTransition.setToY(e.getY());
-
-
-        RotateTransition rotateTransition = new RotateTransition(Duration.millis(300), magicShoot);
-        rotateTransition.setByAngle(180f);
-
-        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(300), magicShoot);
-        scaleTransition.setToX(1.3f);
-        scaleTransition.setToY(1.3f);
+            translateTransition.setFromY(this.getY());
+            translateTransition.setToY(e.getY());
 
 
-        ParallelTransition parallelTransition = new ParallelTransition();
-        parallelTransition.getChildren().addAll(
-                fadeTransition,
-                translateTransition,
-                rotateTransition,
-                scaleTransition
-        );
-        MagicShoot.setVisible(true);
-        parallelTransition.play();
+            RotateTransition rotateTransition = new RotateTransition(Duration.millis(300), magicShoot);
+            rotateTransition.setByAngle(180f);
 
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(300), magicShoot);
+            scaleTransition.setToX(1.3f);
+            scaleTransition.setToY(1.3f);
+
+
+            ParallelTransition parallelTransition = new ParallelTransition();
+            parallelTransition.getChildren().addAll(
+                    fadeTransition,
+                    translateTransition,
+                    rotateTransition,
+                    scaleTransition
+            );
+            magicShoot.setVisible(true);
+            parallelTransition.play();
 
     }
 
