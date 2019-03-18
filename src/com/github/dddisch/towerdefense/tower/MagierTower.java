@@ -143,6 +143,7 @@ public class MagierTower extends ImageView
             if(e.getX()>= 0)
             {
                 translateTransition.setToX(e.getX());
+                return;
             }
 
             translateTransition.setFromY(this.getY());
@@ -150,6 +151,7 @@ public class MagierTower extends ImageView
             if(e.getY() >= 0)
             {
                 translateTransition.setToY(e.getY());
+                return;
             }
 
 
