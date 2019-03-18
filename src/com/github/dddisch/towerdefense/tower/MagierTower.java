@@ -97,6 +97,7 @@ public class MagierTower extends ImageView
                         }
 
 
+
                         if (e.getLives() <= 0) {
                             Platform.runLater(() -> {
                                 e.setVisible(false);
