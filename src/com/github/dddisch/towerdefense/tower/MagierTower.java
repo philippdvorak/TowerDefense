@@ -127,12 +127,6 @@ public class MagierTower extends ImageView
 
         try {
 
-        }
-        catch (Exception outOfBounds)
-        {
-            System.out.println();
-        }
-
             magicShoot.setFitHeight(50);
             magicShoot.setFitWidth(50);
             magicShoot.setX(0);
@@ -174,6 +168,13 @@ public class MagierTower extends ImageView
             );
             parallelTransition.play();
             magicShoot.setVisible(true);
+
+        }
+        catch (ArrayIndexOutOfBoundsException outOfBounds)
+        {
+            System.out.println("true");
+            return;
+        }
 
 
     }
