@@ -67,7 +67,7 @@ public class MagierTower extends ImageView
         return hitBox;
     }
 
-    public void calcHitBox(Group root) {
+    public void calcHitBox() {
 
         Thread test = new Thread(()->{
                 while (true) {
@@ -76,7 +76,7 @@ public class MagierTower extends ImageView
 
                             Platform.runLater(() -> this.setRotate(calcAngle(e.getX(), e.getY())));
 
-                            shoot(e,root);
+                            shoot(e);
 
                             e.setLives(e.getLives() - 10);
 
@@ -84,6 +84,7 @@ public class MagierTower extends ImageView
                                 Platform.runLater(() -> {
                                     e.setVisible(false);
                                     Main.getEnemyVector().remove(e);
+                                    Main.setMoney(Main.getMoney()+5);
                                 });
                             }
 
@@ -94,15 +95,6 @@ public class MagierTower extends ImageView
                             }
 
                             break;
-                        }
-
-
-
-                        if (e.getLives() <= 0) {
-                            Platform.runLater(() -> {
-                                e.setVisible(false);
-                                Main.getEnemyVector().remove(e);
-                            });
                         }
                     }
                 }
@@ -131,7 +123,7 @@ public class MagierTower extends ImageView
         this.addEventFilter(MouseEvent.MOUSE_RELEASED,e-> hitBox.setVisible(false));
     }
 
-    private void shoot(BaseEnemy e, Group root) {
+    private void shoot(BaseEnemy e) {
 
             magicShoot.setFitHeight(50);
             magicShoot.setFitWidth(50);
