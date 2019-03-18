@@ -172,7 +172,11 @@ public class MagierTower extends ImageView
         }
         catch (ArrayIndexOutOfBoundsException outOfBounds)
         {
-            System.out.println("true");
+            System.out.println("IndexOutOfBounds");
+            return;
+        }
+        catch(NullPointerException ignored) {
+            System.out.println("Null");
             return;
         }
 

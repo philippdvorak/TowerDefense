@@ -88,7 +88,7 @@ public class Main extends Application {
         showMoney.setLayoutX(primaryStage.getWidth()-30);
         showMoney.setVisible(true);
         root.getChildren().add(showMoney);
-        money.set(260);
+        money.set(350);
         showMoney.setText("$" + Integer.toString(money.get()));
 
 
