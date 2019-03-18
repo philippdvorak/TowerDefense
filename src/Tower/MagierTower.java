@@ -1,12 +1,8 @@
 package Tower;
 
 import Enemy.BaseEnemy;
-import com.sun.tools.corba.se.idl.ExceptionEntry;
-import com.sun.xml.internal.rngom.parse.host.Base;
 import javafx.animation.*;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -148,7 +144,6 @@ public class MagierTower extends ImageView
         MagicShoot.setY(0);
         MagicShoot.setTranslateX(0);
         MagicShoot.setTranslateY(0);
-        MagicShoot.setVisible(true);
 
 
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(300), MagicShoot);
@@ -179,6 +174,7 @@ public class MagierTower extends ImageView
                 rotateTransition,
                 scaleTransition
         );
+        MagicShoot.setVisible(true);
         parallelTransition.play();
 
 

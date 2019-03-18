@@ -84,28 +84,32 @@ public class Main extends Application {
     //Adds all listeners needed for the first Button
     private void addListener(Stage primaryStage) {
     //Listens to the click of the Button
-        Thread listenersThread = new Thread(()->{
             ft.addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
-                if (Tower == null) {
-                    Tower = new ImageView(magier);
-                    Tower.setFitWidth(56);
-                    Tower.setFitHeight(58);
+                    if (Tower == null) {
+                        Tower = new ImageView(magier);
+                        Tower.setFitWidth(56);
+                        Tower.setFitHeight(58);
 
-                    Tower.setPreserveRatio(true);
-                    root.getChildren().add(Tower);
-                }
+                        Tower.setPreserveRatio(true);
+                        root.getChildren().add(Tower);
+                    }
             });
 
             //Moves the Rectangle around on the screen
             primaryStage.getScene().addEventHandler(MouseEvent.MOUSE_MOVED,e -> {
-                if (Tower != null) {
-                    Tower.setVisible(true);
-                    tempX = MouseInfo.getPointerInfo().getLocation().x-(Tower.getFitWidth()/2);
-                    tempY = MouseInfo.getPointerInfo().getLocation().y-(Tower.getFitHeight()/2);
-                   Tower.setX(MouseInfo.getPointerInfo().getLocation().x-(Tower.getFitWidth()/2));
-                   Tower.setY(MouseInfo.getPointerInfo().getLocation().y-(Tower.getFitHeight()/2));
-                }
-            });
+
+            if (Tower != null) {
+                Tower.setVisible(true);
+                tempX = MouseInfo.getPointerInfo().getLocation().x - (Tower.getFitWidth() / 2);
+                tempY = MouseInfo.getPointerInfo().getLocation().y - (Tower.getFitHeight() / 2);
+                Platform.runLater(() -> {
+                    Tower.setX(MouseInfo.getPointerInfo().getLocation().x - (Tower.getFitWidth() / 2));
+                    Tower.setY(MouseInfo.getPointerInfo().getLocation().y - (Tower.getFitHeight() / 2));
+                });
+
+            }
+
+        });
 
             //Places the Rectangle on the clicked position
             primaryStage.getScene().addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
@@ -124,9 +128,7 @@ public class Main extends Application {
 
                 }
             });
-        });
-        listenersThread.setDaemon(true);
-        listenersThread.start();
+
     }
 
     //Updates the z-index of the button, so the button always stays in the front
