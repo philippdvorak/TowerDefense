@@ -35,7 +35,6 @@ public class Main extends Application {
     static private Queue<BaseEnemy> enemyVector = new ConcurrentLinkedQueue<>();
     private Vector<MagierTower> towerVector = new Vector<>();
     private Group root;
-    private Image magier = new Image(new FileInputStream("./res/img/Magier.png"));
     private ImageView tower = null;
     private MagierTowerMenu ft, ft2;
     private double tempX, tempY;
@@ -86,7 +85,6 @@ public class Main extends Application {
 
         showMoney.setLayoutX(0);
         showMoney.setVisible(true);
-        root.getChildren().add(showMoney);
         money.set(350);
         showMoney.setText("$" + money.get());
 
