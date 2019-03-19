@@ -145,8 +145,6 @@ public class Main extends Application {
                         tower.setPreserveRatio(true);
                         root.getChildren().add(tower);
                     }
-                    tower.setPreserveRatio(true);
-                    root.getChildren().add(tower);
                 }
             });
 
@@ -155,8 +153,8 @@ public class Main extends Application {
 
             if (tower != null) {
                 tower.setVisible(true);
-                tempX = MouseInfo.getPointerInfo().getLocation().x - (tower.getFitWidth() / 2);
-                tempY = MouseInfo.getPointerInfo().getLocation().y - (tower.getFitHeight() / 2);
+                tempX = e.getScreenX() - (tower.getFitWidth() / 2);
+                tempY = e.getScreenY() - (tower.getFitHeight() / 2);
                 tower.setX(MouseInfo.getPointerInfo().getLocation().x - (tower.getFitWidth() / 2));
                 tower.setY(MouseInfo.getPointerInfo().getLocation().y - (tower.getFitHeight() / 2));
             }
