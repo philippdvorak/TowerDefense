@@ -1,16 +1,10 @@
 package com.github.dddisch.towerdefense.enemy;
 
+import com.github.dddisch.towerdefense.utils.imageloader.ImageLoader;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.event.EventHandler;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 
 public class BaseEnemy extends ImageView {
     private Stage primaryStage;
@@ -20,11 +14,8 @@ public class BaseEnemy extends ImageView {
     public BaseEnemy(Stage primaryStage) {
         this.lives.set(100);
         this.primaryStage = primaryStage;
-        try {
-            this.setImage(new Image(new FileInputStream("./res/img/Baloon.png")));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+
+        this.setImage(ImageLoader.loadImage("enemies::baloon::"));
 
         show();
 
