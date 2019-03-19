@@ -155,12 +155,9 @@ public class MagierTower extends ImageView
             parallelTransition.play();
             magicShoot.setVisible(true);
 
-        }
-        catch (ArrayIndexOutOfBoundsException outOfBounds)
-        {
+        } catch (ArrayIndexOutOfBoundsException outOfBounds) {
             System.out.println("IndexOutOfBounds");
-        }
-        catch(NullPointerException ignored) {
+        } catch(NullPointerException ignored) {
             System.out.println("Null");
         }
 
