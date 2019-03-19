@@ -18,10 +18,7 @@ public class BaseEnemy extends ImageView {
         this.setImage(ImageLoader.loadImage("enemies::baloon::"));
 
         show();
-
         move();
-
-        addListeners();
     }
 
     private void show() {
@@ -44,7 +41,6 @@ public class BaseEnemy extends ImageView {
         Thread t = new Thread(() -> {
             while(this.getX() < primaryStage.getWidth()) {
                 Platform.runLater(() -> this.setX(this.getX() + 1));
-                Platform.runLater(() -> this.setY(this.getY()));
                 try {
                     Thread.sleep(20);
                 } catch (InterruptedException e) {
@@ -59,7 +55,4 @@ public class BaseEnemy extends ImageView {
     }
 
 
-    private void addListeners() {
-        this.setOnMouseClicked(event -> System.out.println(lives));
-    }
 }

@@ -1,16 +1,20 @@
 package com.github.dddisch.towerdefense.tower;
 
 import com.github.dddisch.towerdefense.enemy.BaseEnemy;
+import com.github.dddisch.towerdefense.enemy.BaseEnemy;
 import com.github.dddisch.towerdefense.main.Main;
-import com.github.dddisch.towerdefense.utils.imageloader.ImageLoader;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.scene.Group;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * Adds an element of the first tower which is static and can not be repositioned with the mouse again
@@ -22,14 +26,40 @@ public class MagierTower extends ImageView
     private Circle hitBox;
     private ImageView magicShoot;
 
+    FadeTransition fadeTransition;
+    TranslateTransition translateTransition;
+    RotateTransition rotateTransition;
+    ScaleTransition scaleTransition;
+    ParallelTransition parallelTransition = new ParallelTransition();
+
 
     public MagierTower(double x, double y, Group root)
     {
-        this.setImage(ImageLoader.loadImage("towers::magier::"));
-        magicShoot = ImageLoader.loadImageView("towers::magier::missile");
 
+        try {
+            this.setImage(new Image(new FileInputStream("./res/img/Magier.png")));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            magicShoot = new ImageView(new Image(new FileInputStream("./res/img/MagieBall.png")));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        fadeTransition = new FadeTransition(Duration.millis(300), magicShoot);
+        translateTransition = new TranslateTransition(Duration.millis(300), magicShoot);
+        scaleTransition = new ScaleTransition(Duration.millis(300), magicShoot);
+        rotateTransition = new RotateTransition(Duration.millis(300), magicShoot);
         magicShoot.setVisible(false);
         root.getChildren().add(magicShoot);
+        parallelTransition.getChildren().addAll(
+                fadeTransition,
+                translateTransition,
+                rotateTransition,
+                scaleTransition
+        );
 
         this.setVisible(true);
         this.setX(x);
@@ -111,56 +141,34 @@ public class MagierTower extends ImageView
 
     private void shoot(BaseEnemy e) {
 
-        try {
+        magicShoot.setFitHeight(50);
+        magicShoot.setFitWidth(50);
+        magicShoot.setX(0);
+        magicShoot.setY(0);
+        magicShoot.setTranslateX(0);
+        magicShoot.setTranslateY(0);
+        magicShoot.setVisible(false);
 
-            magicShoot.setFitHeight(50);
-            magicShoot.setFitWidth(50);
-            magicShoot.setX(0);
-            magicShoot.setY(0);
-            magicShoot.setTranslateX(0);
-            magicShoot.setTranslateY(0);
+        fadeTransition.setFromValue(1.0f);
+        fadeTransition.setToValue(0.0f);
+        translateTransition.setFromX(this.getX());
 
+        if(e.getX()>= 0) { translateTransition.setToX(e.getX()); }
+        else { return; }
 
-            FadeTransition fadeTransition = new FadeTransition(Duration.millis(300), magicShoot);
-            fadeTransition.setFromValue(1.0f);
-            fadeTransition.setToValue(0.0f);
+        translateTransition.setFromY(this.getY());
 
-            TranslateTransition translateTransition = new TranslateTransition(Duration.millis(300), magicShoot);
-            translateTransition.setFromX(this.getX());
-
-            if(e.getX()>= 0) { translateTransition.setToX(e.getX()); }
-            else { return; }
-
-            translateTransition.setFromY(this.getY());
-
-            if(e.getY() >= 0) { translateTransition.setToY(e.getY()); }
-            else { return; }
+        if(e.getY() >= 0) { translateTransition.setToY(e.getY()); }
+        else { return; }
 
 
-            RotateTransition rotateTransition = new RotateTransition(Duration.millis(300), magicShoot);
-            rotateTransition.setByAngle(180f);
+        rotateTransition.setByAngle(180f);
 
-            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(300), magicShoot);
-            scaleTransition.setToX(1.3f);
-            scaleTransition.setToY(1.3f);
+        scaleTransition.setToX(1.3f);
+        scaleTransition.setToY(1.3f);
 
-
-            ParallelTransition parallelTransition = new ParallelTransition();
-            parallelTransition.getChildren().addAll(
-                    fadeTransition,
-                    translateTransition,
-                    rotateTransition,
-                    scaleTransition
-            );
-            parallelTransition.play();
-            magicShoot.setVisible(true);
-
-        } catch (ArrayIndexOutOfBoundsException outOfBounds) {
-            System.out.println("IndexOutOfBounds");
-        } catch(NullPointerException ignored) {
-            System.out.println("Null");
-        }
-
+        parallelTransition.play();
+        magicShoot.setVisible(true);
 
     }
 

@@ -9,15 +9,22 @@ import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Queue;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -25,16 +32,22 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Main extends Application {
 
     static private Queue<BaseEnemy> enemyVector = new ConcurrentLinkedQueue<>();
-
     private Vector<MagierTower> towerVector = new Vector<>();
     private Group root;
+    private Image magier = new Image(new FileInputStream("./res/img/Magier.png"));
     private ImageView tower = null;
     private MagierTowerMenu ft, ft2;
     private double tempX, tempY;
-    private VBox menu = new VBox();
+    private VBox towerMenu = new VBox();
     static private Integer sync = 0;
-    static IntegerProperty money = new SimpleIntegerProperty();
+    static SimpleIntegerProperty money = new SimpleIntegerProperty();
     Label showMoney = new Label();
+    HBox topMenu = new HBox();
+
+
+    public Main() throws FileNotFoundException {
+    }
+
 
     static public Queue<BaseEnemy> getEnemyVector() {
         return enemyVector;
@@ -48,7 +61,7 @@ public class Main extends Application {
         return money.get();
     }
 
-    static public IntegerProperty moneyProperty() {
+    static public SimpleIntegerProperty moneyProperty() {
         return money;
     }
 
@@ -70,19 +83,18 @@ public class Main extends Application {
         back.setFitHeight(primaryStage.getHeight());
         root.getChildren().add(back);
 
-        showMoney.setLayoutX(primaryStage.getWidth()-30);
+        showMoney.setLayoutX(0);
         showMoney.setVisible(true);
         root.getChildren().add(showMoney);
         money.set(350);
         showMoney.setText("$" + money.get());
 
-
-
         ft = new MagierTowerMenu(primaryStage);
-        ft2 = new MagierTowerMenu(primaryStage);
-        menu.getChildren().add(ft);
+        towerMenu.getChildren().add(ft);
+        towerMenu.setLayoutX(primaryStage.getWidth()-ft.getPrefWidth());
 
-        root.getChildren().add(menu);
+        root.getChildren().add(showMoney);
+        root.getChildren().add(towerMenu);
 
         //Constant spawn of enemies
         Thread t = new Thread(()->{
@@ -92,9 +104,9 @@ public class Main extends Application {
 
                for (int i = 0; i < spawnCount; i++)
                {
-                   BaseEnemy enemy = new BaseEnemy(primaryStage);
-                   enemyVector.add(enemy);
-                   Platform.runLater(()->root.getChildren().add(enemy));
+                       BaseEnemy enemy = new BaseEnemy(primaryStage);
+                       enemyVector.add(enemy);
+                       Platform.runLater(()->root.getChildren().add(enemy));
 
                    try {
                        Thread.sleep(spawnTime);
@@ -103,7 +115,7 @@ public class Main extends Application {
                    }
                }
 
-               if (spawnTime >= 400)
+               if (spawnTime >= 500)
                {
                    spawnCount =(int)(spawnCount * 1.2);
                    spawnTime = (int)(spawnTime * 0.85);
@@ -124,15 +136,13 @@ public class Main extends Application {
     private void addListener(Stage primaryStage) {
     //Listens to the click of the Button
             ft.addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
+                if(getMoney()>=150){
                     if (tower == null) {
                         tower = ImageLoader.loadImageView("towers::magier::");
                         tower.setFitWidth(56);
                         tower.setFitHeight(58);
-                if (tower == null) {
-                    tower = ImageLoader.loadImageView("towers:magier::");
-                    tower.setFitWidth(56);
-                    tower.setFitHeight(58);
-
+                        tower.setX(MouseInfo.getPointerInfo().getLocation().x);
+                        tower.setY(MouseInfo.getPointerInfo().getLocation().y);
                         tower.setPreserveRatio(true);
                         root.getChildren().add(tower);
                     }
@@ -146,18 +156,15 @@ public class Main extends Application {
 
             if (tower != null) {
                 tower.setVisible(true);
-                tempX = e.getSceneX() - (tower.getFitWidth() / 2);
-                tempY = e.getSceneY() - (tower.getFitHeight() / 2);
-                Platform.runLater(() -> {
-                    tower.setX(e.getSceneX() - (tower.getFitWidth() / 2));
-                    tower.setY(e.getSceneY() - (tower.getFitHeight() / 2));
-                });
-
+                tempX = MouseInfo.getPointerInfo().getLocation().x - (tower.getFitWidth() / 2);
+                tempY = MouseInfo.getPointerInfo().getLocation().y - (tower.getFitHeight() / 2);
+                tower.setX(MouseInfo.getPointerInfo().getLocation().x - (tower.getFitWidth() / 2));
+                tower.setY(MouseInfo.getPointerInfo().getLocation().y - (tower.getFitHeight() / 2));
             }
 
         });
 
-            //Places the Rectangle on the clicked position
+            //Places the Tower on the clicked position
             primaryStage.getScene().addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
                 if (tower != null && getMoney() >= 150) {
                     towerVector.add(new MagierTower(tempX,tempY, root));
