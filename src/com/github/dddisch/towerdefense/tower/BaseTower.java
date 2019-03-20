@@ -87,7 +87,7 @@ public class BaseTower extends ImageView
         missle.setFitWidth(width);
     }
 
-    public void calcHitBox() {
+    public void calcHitBox(Group root) {
 
         Thread test = new Thread(()->{
                 while (true) {
@@ -106,6 +106,7 @@ public class BaseTower extends ImageView
                                         e.setVisible(false);
 
                                             Main.getEnemyVector().remove(e);
+                                            Platform.runLater(() -> root.getChildren().remove(e));
 
 
                                         Main.setMoney(Main.getMoney()+5);

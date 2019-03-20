@@ -142,6 +142,7 @@ public class Main extends Application {
                         mainLives.set(mainLives.get()-1);
                         System.out.println(mainLives);
                         enemyVector.remove(e);
+                        Platform.runLater(() -> root.getChildren().remove(e));
                     }
                 }
 
@@ -232,7 +233,7 @@ public class Main extends Application {
                 root.getChildren().add(towerVector.lastElement());
                 root.getChildren().add(towerVector.lastElement().getHitBox());
 
-                towerVector.lastElement().calcHitBox();
+                towerVector.lastElement().calcHitBox(root);
 
                 root.getChildren().remove(tower);
                 tower = null;
