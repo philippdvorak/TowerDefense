@@ -130,8 +130,9 @@ public class Main extends Application {
                 for (int i = 0; i < spawnCount; i++)
                 {
                     BaseEnemy enemy = new BaseEnemy(primaryStage);
+                    enemyVector.add(enemy);
+
                     Platform.runLater(()->{
-                            enemyVector.add(enemy);
                             root.getChildren().add(enemy);
                     });
 

@@ -105,8 +105,8 @@ public class BaseTower extends ImageView
                                     Platform.runLater(() -> {
                                         e.setVisible(false);
 
+                                        Main.getEnemyVector().remove(e);
                                             Platform.runLater(() -> {
-                                                    Main.getEnemyVector().remove(e);
                                                     root.getChildren().remove(e);
 
                                             });
@@ -166,12 +166,12 @@ public class BaseTower extends ImageView
         translateTransition.setFromY((this.getY() + (this.getFitHeight()/2)) - (missle.getFitHeight()));
 
 
-        if(e.getLayoutX()>= 0) { translateTransition.setToX(e.getLayoutX()); }
+        if(e.getX()>= 0) { translateTransition.setToX(e.getX()); }
         else { return; }
 
         translateTransition.setFromY(this.getY() + (this.getFitHeight()/2));
 
-        if(e.getLayoutY() >= 0) { translateTransition.setToY(e.getLayoutY()); }
+        if(e.getY() >= 0) { translateTransition.setToY(e.getY()); }
         else { return; }
 
 
