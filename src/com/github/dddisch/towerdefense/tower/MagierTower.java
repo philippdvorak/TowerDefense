@@ -85,7 +85,7 @@ public class MagierTower extends ImageView
 
                             Platform.runLater(() -> this.setRotate(calcAngle(e.getX(), e.getY())));
 
-                            //shoot(e);
+                            shoot(e);
 
                             e.setLives(e.getLives() - 10);
 
