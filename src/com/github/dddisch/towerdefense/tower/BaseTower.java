@@ -102,6 +102,7 @@ public class BaseTower extends ImageView
 
 
                                 if (e.getLives() <= 0) {
+                                    e.getShowEnemyLives().setVisible(false);
                                     Platform.runLater(() -> {
                                         e.setVisible(false);
 

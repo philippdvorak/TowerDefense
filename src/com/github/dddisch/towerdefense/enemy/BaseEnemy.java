@@ -3,43 +3,59 @@ package com.github.dddisch.towerdefense.enemy;
 import com.github.dddisch.towerdefense.main.Main;
 import com.github.dddisch.towerdefense.utils.imageloader.ImageLoader;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class BaseEnemy extends ImageView {
     private Stage primaryStage;
-    private int lives;
+    private Group root;
+    private SimpleDoubleProperty lives = new SimpleDoubleProperty();
     private boolean dead = false;
     private double height, width;
-    private ProgressBar enemyLives = new ProgressBar();
-    public BaseEnemy(Stage primaryStage) {
-        this.lives = 100;
+    private boolean isClicked = false;
+    private ProgressBar showEnemyLives = new ProgressBar();
+    public BaseEnemy(Stage primaryStage, Group root) {
+        this.root = root;
+        this.lives.set(100);
         this.primaryStage = primaryStage;
 
         this.setImage(ImageLoader.loadImage("enemies::baloon::"));
 
         show();
         move();
+        addListeners();
     }
+
+
 
     private void show() {
         this.setFitWidth(50);
         this.setFitHeight(71);
 
+        showEnemyLives.setVisible(false);
+        showEnemyLives.setPrefWidth(50);
+        showEnemyLives.setPrefHeight(5);
+        showEnemyLives.setStyle("-fx-accent: red;");
         this.setX(0);
         this.setY(primaryStage.getHeight()/2-35);
+        showEnemyLives.setLayoutY(this.getY() - 10);
+        showEnemyLives.progressProperty().bind(lives.divide(10));
+
     }
 
     public int getLives() {
-        return lives;
+        return (int)lives.get();
     }
 
     public void setLives(int lives) {
-        this.lives = lives;
+        this.lives.set(lives);
     }
 
     public boolean isDead() {
@@ -50,11 +66,24 @@ public class BaseEnemy extends ImageView {
         this.dead = dead;
     }
 
+    public ProgressBar getShowEnemyLives() {
+        return showEnemyLives;
+    }
+
     private void move() {
         Thread t = new Thread(() -> {
             while(this.getX() < primaryStage.getWidth()) {
                 Platform.runLater(() -> {
                         this.setX(this.getX() + 1);
+                        if (isClicked)
+                        {
+                            showEnemyLives.setVisible(true);
+                            showEnemyLives.setLayoutX(this.getX());
+
+                        }
+                        else {
+                            showEnemyLives.setVisible(false);
+                        }
 
                 });
                 try {
@@ -71,5 +100,18 @@ public class BaseEnemy extends ImageView {
         t.start();
     }
 
+    public void addListeners()
+    {
+        this.setOnMousePressed(event -> {
+            isClicked = true;
+            root.getChildren().add(showEnemyLives);
+        });
 
+        this.setOnMouseReleased(event -> {
+            isClicked = false;
+
+                showEnemyLives.setVisible(false);
+                root.getChildren().remove(showEnemyLives);
+        });
+    }
 }

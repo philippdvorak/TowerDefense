@@ -129,7 +129,7 @@ public class Main extends Application {
 
                 for (int i = 0; i < spawnCount; i++)
                 {
-                    BaseEnemy enemy = new BaseEnemy(primaryStage);
+                    BaseEnemy enemy = new BaseEnemy(primaryStage, root);
                     enemyVector.add(enemy);
 
                     Platform.runLater(()->{
@@ -161,6 +161,7 @@ public class Main extends Application {
                     if (e.isDead()) {
                         mainLives.set(mainLives.get()-1);
                         System.out.println(mainLives);
+                        e.getShowEnemyLives().setVisible(false);
                         enemyVector.remove(e);
                         Platform.runLater(() -> {
                                 root.getChildren().remove(e);
