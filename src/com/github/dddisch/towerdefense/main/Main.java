@@ -97,7 +97,7 @@ public class Main extends Application {
         showMoney.setTextFill(Color.WHITE);
         showMoney.setEffect(drop);
         showMoney.setFont(new Font("Helvetica", 40));
-        money.set(300);
+        money.set(3000);
         showMoney.setText("$" + money.get());
 
         mT = new TowerMenu(primaryStage, "Magier - $150");
@@ -179,7 +179,7 @@ public class Main extends Application {
      * @param primaryStage stage, which the listeners shall be registered on
      */
     private void addListener(Stage primaryStage) {
-        //Listens to the click of the Magic Button
+        //Listens to the click of the Tower Button
         mT.addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
             if(getMoney()>=150){
                 if (tower == null) {
@@ -246,15 +246,20 @@ public class Main extends Application {
                     whichTower = "";
                 }
 
-                root.getChildren().add(towerVector.lastElement());
-                root.getChildren().add(towerVector.lastElement().getHitBox());
+                System.out.println(e.getY());
+                System.out.println(primaryStage.getHeight()/2 + 35);
 
-                towerVector.lastElement().calcHitBox(root);
+                if (e.getY() > (primaryStage.getHeight() / 2 + 50) || e.getY() < (primaryStage.getHeight() / 2 -  50)) {
+                    root.getChildren().add(towerVector.lastElement());
+                    root.getChildren().add(towerVector.lastElement().getHitBox());
 
-                root.getChildren().remove(tower);
-                tower = null;
+                    towerVector.lastElement().calcHitBox(root);
 
-                updateZIndex(root);
+                    root.getChildren().remove(tower);
+                    tower = null;
+
+                    updateZIndex(root);
+                }
             }
         });
 
