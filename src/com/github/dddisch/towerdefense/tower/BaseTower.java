@@ -94,7 +94,7 @@ public class BaseTower extends ImageView
                     for (BaseEnemy e : Main.getEnemyVector()) {
                         if (hitBox.intersects(e.getBoundsInLocal())) {
 
-                            Platform.runLater(() -> this.setRotate(calcAngle(e.getLayoutX(), e.getLayoutY())));
+                            Platform.runLater(() -> this.setRotate(calcAngle(e.getX(), e.getY())));
 
                             shoot(e);
 

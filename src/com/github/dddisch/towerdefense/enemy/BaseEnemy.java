@@ -10,30 +10,28 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class BaseEnemy extends Group {
+public class BaseEnemy extends ImageView {
     private Stage primaryStage;
     private int lives;
     private boolean dead = false;
     private double height, width;
-    private ImageView tower = new ImageView();
     private ProgressBar enemyLives = new ProgressBar();
     public BaseEnemy(Stage primaryStage) {
         this.lives = 100;
         this.primaryStage = primaryStage;
 
-        tower.setImage(ImageLoader.loadImage("enemies::baloon::"));
-        this.getChildren().add(tower);
+        this.setImage(ImageLoader.loadImage("enemies::baloon::"));
 
         show();
         move();
     }
 
     private void show() {
-        tower.setFitWidth(50);
-        tower.setFitHeight(71);
+        this.setFitWidth(50);
+        this.setFitHeight(71);
 
-        tower.setX(0);
-        tower.setY(primaryStage.getHeight()/2-35);
+        this.setX(0);
+        this.setY(primaryStage.getHeight()/2-35);
     }
 
     public int getLives() {
@@ -54,9 +52,9 @@ public class BaseEnemy extends Group {
 
     private void move() {
         Thread t = new Thread(() -> {
-            while(tower.getX() < primaryStage.getWidth()) {
+            while(this.getX() < primaryStage.getWidth()) {
                 Platform.runLater(() -> {
-                        tower.setX(tower.getX() + 1);
+                        this.setX(this.getX() + 1);
 
                 });
                 try {
@@ -66,7 +64,7 @@ public class BaseEnemy extends Group {
                 }
             }
             this.dead = true;
-            tower.setVisible(false);
+            this.setVisible(false);
         });
 
         t.setDaemon(true);
