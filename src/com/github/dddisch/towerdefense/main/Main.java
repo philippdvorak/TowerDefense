@@ -77,7 +77,7 @@ public class Main extends Application {
 
         showMoney.setLayoutX(0);
         showMoney.setVisible(true);
-        money.set(280);
+        money.set(300);
         showMoney.setText("$" + money.get());
 
         mT = new TowerMenu(primaryStage, "Magier - $150");
@@ -99,11 +99,9 @@ public class Main extends Application {
 
                for (int i = 0; i < spawnCount; i++)
                {
-                   synchronized (sync) {
                        BaseEnemy enemy = new BaseEnemy(primaryStage);
                        Platform.runLater(()->enemyVector.add(enemy));
                        Platform.runLater(()->root.getChildren().add(enemy));
-                   }
 
 
                    try {
@@ -178,25 +176,24 @@ public class Main extends Application {
 
             //Places the Tower on the clicked position
             primaryStage.getScene().addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-                    if(whichTower.equals("magic"))
-                    {
-                        towerVector.add(new BaseTower(tempX,tempY, root, "towers::magier::", "towers::magier::missile", 150, 300));
+                if (tower != null) {
+                    if (whichTower.equals("magic")) {
+                        towerVector.add(new BaseTower(tempX, tempY, root, "towers::magier::", "towers::magier::missile", 150, 300));
                         towerVector.lastElement().setHeight(56);
                         towerVector.lastElement().setWidth(58);
                         towerVector.lastElement().missleHeight(50);
                         towerVector.lastElement().missleWidth(50);
-                        setMoney(getMoney()-150);
+                        setMoney(getMoney() - 150);
                         whichTower = "";
                     }
-                    if(whichTower.equals("sniper"))
-                    {
-                        towerVector.add(new BaseTower(tempX,tempY, root, "towers::sniper::", "towers::sniper::missile", (int)(primaryStage.getHeight()*2), 100));
+                    if (whichTower.equals("sniper")) {
+                        towerVector.add(new BaseTower(tempX, tempY, root, "towers::sniper::", "towers::sniper::missile", (int) (primaryStage.getHeight() * 2), 100));
                         towerVector.lastElement().setHeight(140);
                         towerVector.lastElement().setWidth(55);
 
                         towerVector.lastElement().missleHeight(10);
                         towerVector.lastElement().missleWidth(10);
-                        setMoney(getMoney()-250);
+                        setMoney(getMoney() - 250);
                         whichTower = "";
                     }
 
@@ -209,7 +206,7 @@ public class Main extends Application {
                     tower = null;
 
                     updateZIndex(root);
-
+                }
             });
 
             showMoney.textProperty().bind(Bindings.concat("$", money.asString()));
