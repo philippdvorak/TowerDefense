@@ -47,6 +47,7 @@ public class Main extends Application {
     Label showMoney = new Label();
     String whichTower;
     private DropShadow drop = new DropShadow();
+    private int costMoney = 0;
 
 
     public Main() throws FileNotFoundException {
@@ -229,6 +230,7 @@ public class Main extends Application {
 
         //Places the Tower on the clicked position
         primaryStage.getScene().addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+
             if (tower != null) {
                 if (whichTower.equals("magic")) {
                     towerVector.add(new BaseTower(tempX, tempY, root, "towers::magier::", "towers::magier::missile", 150, 300));
@@ -236,9 +238,10 @@ public class Main extends Application {
                     towerVector.lastElement().setWidth(58);
                     towerVector.lastElement().missleHeight(50);
                     towerVector.lastElement().missleWidth(50);
-                    setMoney(getMoney() - 150);
+                    costMoney = 150;
                     whichTower = "";
                 }
+
                 if (whichTower.equals("sniper")) {
                     towerVector.add(new BaseTower(tempX, tempY, root, "towers::sniper::", "towers::sniper::missile", (int) (primaryStage.getHeight() * 2), 100));
                     towerVector.lastElement().setHeight(140);
@@ -246,22 +249,21 @@ public class Main extends Application {
 
                     towerVector.lastElement().missleHeight(10);
                     towerVector.lastElement().missleWidth(10);
-                    setMoney(getMoney() - 250);
+                    costMoney = 250;
                     whichTower = "";
                 }
 
-                System.out.println(e.getY());
-                System.out.println(primaryStage.getHeight()/2 + 35);
-
                 if (e.getY() > (primaryStage.getHeight() / 2 + 50) || e.getY() < (primaryStage.getHeight() / 2 -  50)) {
+                    towerVector.lastElement().setX(e.getX() - towerVector.lastElement().getFitWidth()/2);
+                    towerVector.lastElement().setY(e.getY() - towerVector.lastElement().getFitHeight()/2);
                     root.getChildren().add(towerVector.lastElement());
                     root.getChildren().add(towerVector.lastElement().getHitBox());
 
                     towerVector.lastElement().calcHitBox(root);
-
+                    money.set(money.get() - costMoney);
                     root.getChildren().remove(tower);
-                    tower = null;
 
+                    tower = null;
                     updateZIndex(root);
                 }
             }
