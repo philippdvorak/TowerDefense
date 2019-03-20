@@ -31,7 +31,7 @@ public class Main extends Application {
     private TowerMenu mT, sT;
     private double tempX, tempY;
     private VBox towerMenu = new VBox();
-    final static private Integer sync = 0;
+    final static private Integer sync = new Integer(0);
     static SimpleIntegerProperty money = new SimpleIntegerProperty();
     Label showMoney = new Label();
     String whichTower;
@@ -100,8 +100,7 @@ public class Main extends Application {
                for (int i = 0; i < spawnCount; i++)
                {
 
-                   synchronized (sync)
-                   {
+                   synchronized (sync) {
                        BaseEnemy enemy = new BaseEnemy(primaryStage);
                        Platform.runLater(()->enemyVector.add(enemy));
                        Platform.runLater(()->root.getChildren().add(enemy));

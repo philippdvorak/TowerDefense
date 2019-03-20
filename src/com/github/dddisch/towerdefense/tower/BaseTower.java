@@ -104,10 +104,11 @@ public class BaseTower extends ImageView
                                 if (e.getLives() <= 0) {
                                     Platform.runLater(() -> {
                                         e.setVisible(false);
-                                        synchronized (Main.getSync())
-                                        {
+
+                                        synchronized (Main.getSync()) {
                                             Main.getEnemyVector().remove(e);
                                         }
+
                                         Main.setMoney(Main.getMoney()+5);
                                     });
                                 }
