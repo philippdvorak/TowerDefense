@@ -160,8 +160,8 @@ public class Main extends Application {
                     if (e.isDead()) {
                         mainLives.set(mainLives.get()-1);
                         System.out.println(mainLives);
-                        Platform.runLater(() ->{
-                                enemyVector.remove(e);
+                        enemyVector.remove(e);
+                        Platform.runLater(() -> {
                                 root.getChildren().remove(e);
                         });
                     }
