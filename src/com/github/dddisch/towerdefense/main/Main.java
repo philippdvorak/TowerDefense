@@ -1,30 +1,22 @@
 package com.github.dddisch.towerdefense.main;
 
 import com.github.dddisch.towerdefense.enemy.BaseEnemy;
-import com.github.dddisch.towerdefense.tower.MagierTower;
-import com.github.dddisch.towerdefense.tower.MagierTowerMenu;
+import com.github.dddisch.towerdefense.tower.BaseTower;
+import com.github.dddisch.towerdefense.tower.TowerMenu;
 import com.github.dddisch.towerdefense.utils.imageloader.ImageLoader;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.awt.*;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Queue;
 import java.util.Vector;
@@ -33,15 +25,16 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Main extends Application {
 
     static private Queue<BaseEnemy> enemyVector = new ConcurrentLinkedQueue<>();
-    private Vector<MagierTower> towerVector = new Vector<>();
+    private Vector<BaseTower> towerVector = new Vector<>();
     private Group root;
     private ImageView tower = null;
-    private MagierTowerMenu ft, ft2;
+    private TowerMenu mT, sT;
     private double tempX, tempY;
     private VBox towerMenu = new VBox();
     final static private Integer sync = 0;
     static SimpleIntegerProperty money = new SimpleIntegerProperty();
     Label showMoney = new Label();
+    String whichTower;
 
 
     public Main() throws FileNotFoundException {
@@ -87,9 +80,13 @@ public class Main extends Application {
         money.set(280);
         showMoney.setText("$" + money.get());
 
-        ft = new MagierTowerMenu(primaryStage);
-        towerMenu.getChildren().add(ft);
-        towerMenu.setLayoutX(primaryStage.getWidth()-ft.getPrefWidth());
+        mT = new TowerMenu(primaryStage, "Magier - $150");
+        sT = new TowerMenu(primaryStage, "Sniper - $250");
+
+        towerMenu.getChildren().add(mT);
+        towerMenu.getChildren().add(sT);
+
+        towerMenu.setLayoutX(primaryStage.getWidth()-mT.getPrefWidth());
 
         root.getChildren().add(showMoney);
         root.getChildren().add(towerMenu);
@@ -106,7 +103,7 @@ public class Main extends Application {
                    synchronized (sync)
                    {
                        BaseEnemy enemy = new BaseEnemy(primaryStage);
-                       enemyVector.add(enemy);
+                       Platform.runLater(()->enemyVector.add(enemy));
                        Platform.runLater(()->root.getChildren().add(enemy));
                    }
 
@@ -137,14 +134,15 @@ public class Main extends Application {
      * @param primaryStage stage, which the listeners shall be registered on
      */
     private void addListener(Stage primaryStage) {
-    //Listens to the click of the Button
-            ft.addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
+    //Listens to the click of the Magic Button
+            mT.addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
                 if(getMoney()>=150){
                     if (tower == null) {
                         tower = ImageLoader.loadImageView("towers::magier::");
+                        whichTower = "magic";
                         tower.setFitWidth(56);
                         tower.setFitHeight(58);
-                        tower.setX(primaryStage.getWidth()-(ft.getPrefWidth()/2));
+                        tower.setX(primaryStage.getWidth()-(mT.getPrefWidth()/2));
                         tower.setY(0);
                         tower.setPreserveRatio(true);
                         root.getChildren().add(tower);
@@ -152,7 +150,22 @@ public class Main extends Application {
                 }
             });
 
-            //Moves the Rectangle around on the screen
+        sT.addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
+            if(getMoney()>=250){
+                if (tower == null) {
+                    tower = ImageLoader.loadImageView("towers::sniper::");
+                    whichTower = "sniper";
+                    tower.setFitWidth(55);
+                    tower.setFitHeight(140);
+                    tower.setX(primaryStage.getWidth()-(sT.getPrefWidth()/2));
+                    tower.setY(0);
+                    tower.setPreserveRatio(true);
+                    root.getChildren().add(tower);
+                }
+            }
+        });
+
+            //Moves the Tower around on the screen
             primaryStage.getScene().addEventHandler(MouseEvent.MOUSE_MOVED,e -> {
 
             if (tower != null) {
@@ -167,8 +180,27 @@ public class Main extends Application {
 
             //Places the Tower on the clicked position
             primaryStage.getScene().addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-                if (tower != null && getMoney() >= 150) {
-                    towerVector.add(new MagierTower(tempX,tempY, root));
+                    if(whichTower.equals("magic"))
+                    {
+                        towerVector.add(new BaseTower(tempX,tempY, root, "towers::magier::", "towers::magier::missile", 150, 300));
+                        towerVector.lastElement().setHeight(56);
+                        towerVector.lastElement().setWidth(58);
+                        towerVector.lastElement().missleHeight(50);
+                        towerVector.lastElement().missleWidth(50);
+                        setMoney(getMoney()-150);
+                        whichTower = "";
+                    }
+                    if(whichTower.equals("sniper"))
+                    {
+                        towerVector.add(new BaseTower(tempX,tempY, root, "towers::sniper::", "towers::sniper::missile", (int)(primaryStage.getHeight()*2), 100));
+                        towerVector.lastElement().setHeight(140);
+                        towerVector.lastElement().setWidth(55);
+
+                        towerVector.lastElement().missleHeight(10);
+                        towerVector.lastElement().missleWidth(10);
+                        setMoney(getMoney()-250);
+                        whichTower = "";
+                    }
 
                     root.getChildren().add(towerVector.lastElement());
                     root.getChildren().add(towerVector.lastElement().getHitBox());
@@ -179,9 +211,7 @@ public class Main extends Application {
                     tower = null;
 
                     updateZIndex(root);
-                    setMoney(getMoney()-150);
 
-                }
             });
 
             showMoney.textProperty().bind(Bindings.concat("$", money.asString()));

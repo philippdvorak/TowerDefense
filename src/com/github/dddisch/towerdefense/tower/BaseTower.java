@@ -1,31 +1,26 @@
 package com.github.dddisch.towerdefense.tower;
 
 import com.github.dddisch.towerdefense.enemy.BaseEnemy;
-import com.github.dddisch.towerdefense.enemy.BaseEnemy;
 import com.github.dddisch.towerdefense.main.Main;
 import com.github.dddisch.towerdefense.utils.imageloader.ImageLoader;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.scene.Group;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 /**
  * Adds an element of the first tower which is static and can not be repositioned with the mouse again
  */
-public class MagierTower extends ImageView
+public class BaseTower extends ImageView
 {
 
 
     private Circle hitBox;
-    private ImageView magicShoot;
+    private ImageView missle;
 
     FadeTransition fadeTransition;
     TranslateTransition translateTransition;
@@ -34,19 +29,17 @@ public class MagierTower extends ImageView
     ParallelTransition parallelTransition = new ParallelTransition();
 
 
-    public MagierTower(double x, double y, Group root)
+    public BaseTower(double x, double y, Group root, String skin, String missileSkin, int hitRadius, int attackSpeed)
     {
+        this.setImage(ImageLoader.loadImage(skin));
+        missle = ImageLoader.loadImageView(missileSkin);
 
-        this.setImage(ImageLoader.loadImage("towers::magier::"));
-
-        magicShoot = ImageLoader.loadImageView("towers::magier::missile");
-
-        fadeTransition = new FadeTransition(Duration.millis(300), magicShoot);
-        translateTransition = new TranslateTransition(Duration.millis(300), magicShoot);
-        scaleTransition = new ScaleTransition(Duration.millis(300), magicShoot);
-        rotateTransition = new RotateTransition(Duration.millis(300), magicShoot);
-        magicShoot.setVisible(false);
-        root.getChildren().add(magicShoot);
+        fadeTransition = new FadeTransition(Duration.millis(attackSpeed), missle);
+        translateTransition = new TranslateTransition(Duration.millis(attackSpeed), missle);
+        scaleTransition = new ScaleTransition(Duration.millis(attackSpeed), missle);
+        rotateTransition = new RotateTransition(Duration.millis(attackSpeed), missle);
+        missle.setVisible(false);
+        root.getChildren().add(missle);
         parallelTransition.getChildren().addAll(
                 fadeTransition,
                 translateTransition,
@@ -57,10 +50,8 @@ public class MagierTower extends ImageView
         this.setVisible(true);
         this.setX(x);
         this.setY(y);
-        this.setFitWidth(56);
-        this.setFitHeight(58);
 
-        hitBox = new Circle(150);
+        hitBox = new Circle(hitRadius);
         hitBox.setVisible(false);
         hitBox.setFill(Color.rgb(255, 255, 50,0.5));
         hitBox.setCenterX(x+(this.getFitWidth()/2));
@@ -74,6 +65,26 @@ public class MagierTower extends ImageView
     //Return the hitBox off the Circle, is needed for intersection with the enemies
     public Circle getHitBox() {
         return hitBox;
+    }
+
+    public void setHeight(int height)
+{
+    this.setFitHeight(height);
+}
+
+    public void setWidth(int width)
+    {
+        this.setFitWidth(width);
+    }
+
+    public void missleHeight(int height)
+    {
+        missle.setFitHeight(height);
+    }
+
+    public void missleWidth(int width)
+    {
+        missle.setFitWidth(width);
     }
 
     public void calcHitBox() {
@@ -100,8 +111,6 @@ public class MagierTower extends ImageView
                                         Main.setMoney(Main.getMoney()+5);
                                     });
                                 }
-
-
 
                             try {
                                 Thread.sleep(500);
@@ -133,29 +142,26 @@ public class MagierTower extends ImageView
 
     private void addListeners() {
         this.addEventFilter(MouseEvent.MOUSE_PRESSED, e -> hitBox.setVisible(true));
-
-
         this.addEventFilter(MouseEvent.MOUSE_RELEASED,e-> hitBox.setVisible(false));
     }
 
     private void shoot(BaseEnemy e) {
 
-        magicShoot.setFitHeight(50);
-        magicShoot.setFitWidth(50);
-        magicShoot.setX(0);
-        magicShoot.setY(0);
-        magicShoot.setTranslateX(0);
-        magicShoot.setTranslateY(0);
-        magicShoot.setVisible(false);
+
+        missle.setX(0);
+        missle.setY(0);
+        missle.setTranslateX(0);
+        missle.setTranslateY(0);
+        missle.setVisible(false);
 
         fadeTransition.setFromValue(1.0f);
         fadeTransition.setToValue(0.0f);
-        translateTransition.setFromX(this.getX());
+        translateTransition.setFromX(this.getX() + (this.getFitWidth()) / 2);
 
         if(e.getX()>= 0) { translateTransition.setToX(e.getX()); }
         else { return; }
 
-        translateTransition.setFromY(this.getY());
+        translateTransition.setFromY(this.getY() + (this.getFitHeight()/2));
 
         if(e.getY() >= 0) { translateTransition.setToY(e.getY()); }
         else { return; }
@@ -167,7 +173,7 @@ public class MagierTower extends ImageView
         scaleTransition.setToY(1.3f);
 
         parallelTransition.play();
-        magicShoot.setVisible(true);
+        missle.setVisible(true);
 
     }
 

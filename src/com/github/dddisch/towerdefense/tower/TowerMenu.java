@@ -8,14 +8,14 @@ import javafx.stage.Stage;
  * The listener which is needed for creating the elements is placed in the Main.java
  * but could maybe be placed in this class again later on
  */
-public class MagierTowerMenu extends Button
+public class TowerMenu extends Button
 {
     private Stage primaryStage;
 
-    public MagierTowerMenu(Stage primaryStage)
+    public TowerMenu(Stage primaryStage, String text)
     {
         this.primaryStage = primaryStage;
-        this.setText("Magier - $150");
+        this.setText(text);
         this.setVisible(true);
         this.setPrefWidth(150);
     }
