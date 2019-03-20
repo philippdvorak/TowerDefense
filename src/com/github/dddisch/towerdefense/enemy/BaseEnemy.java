@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 public class BaseEnemy extends ImageView {
     private Stage primaryStage;
     private int lives;
+    private boolean dead = false;
     private double height, width;
 
     public BaseEnemy(Stage primaryStage) {
@@ -37,6 +38,14 @@ public class BaseEnemy extends ImageView {
         this.lives = lives;
     }
 
+    public boolean isDead() {
+        return dead;
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
+    }
+
     private void move() {
         Thread t = new Thread(() -> {
             while(this.getX() < primaryStage.getWidth()) {
@@ -47,6 +56,7 @@ public class BaseEnemy extends ImageView {
                     e.printStackTrace();
                 }
             }
+            this.dead = true;
             this.setVisible(false);
         });
 
