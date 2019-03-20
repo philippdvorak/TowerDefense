@@ -99,7 +99,6 @@ public class Main extends Application {
 
                for (int i = 0; i < spawnCount; i++)
                {
-
                    synchronized (sync) {
                        BaseEnemy enemy = new BaseEnemy(primaryStage);
                        Platform.runLater(()->enemyVector.add(enemy));

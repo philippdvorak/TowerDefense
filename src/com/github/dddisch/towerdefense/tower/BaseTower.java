@@ -157,7 +157,11 @@ public class BaseTower extends ImageView
 
         fadeTransition.setFromValue(1.0f);
         fadeTransition.setToValue(0.0f);
-        translateTransition.setFromX(this.getX() + (this.getFitWidth()) / 2);
+
+
+        translateTransition.setFromX((this.getX() + (this.getFitWidth()/2))- (missle.getFitWidth()));
+        translateTransition.setFromY((this.getY() + (this.getFitHeight()/2)) - (missle.getFitHeight()));
+
 
         if(e.getX()>= 0) { translateTransition.setToX(e.getX()); }
         else { return; }
