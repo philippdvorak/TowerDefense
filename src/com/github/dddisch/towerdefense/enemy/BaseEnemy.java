@@ -1,33 +1,39 @@
 package com.github.dddisch.towerdefense.enemy;
 
+import com.github.dddisch.towerdefense.main.Main;
 import com.github.dddisch.towerdefense.utils.imageloader.ImageLoader;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.Group;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class BaseEnemy extends ImageView {
+public class BaseEnemy extends Group {
     private Stage primaryStage;
     private int lives;
     private boolean dead = false;
     private double height, width;
-
+    private ImageView tower = new ImageView();
+    private ProgressBar enemyLives = new ProgressBar();
     public BaseEnemy(Stage primaryStage) {
         this.lives = 100;
         this.primaryStage = primaryStage;
 
-        this.setImage(ImageLoader.loadImage("enemies::baloon::"));
+        tower.setImage(ImageLoader.loadImage("enemies::baloon::"));
+        this.getChildren().add(tower);
 
         show();
         move();
     }
 
     private void show() {
-        this.setFitWidth(50);
-        this.setFitHeight(71);
+        tower.setFitWidth(50);
+        tower.setFitHeight(71);
 
-        this.setX(0);
-        this.setY(primaryStage.getHeight()/2-35);
+        tower.setX(0);
+        tower.setY(primaryStage.getHeight()/2-35);
     }
 
     public int getLives() {
@@ -48,8 +54,11 @@ public class BaseEnemy extends ImageView {
 
     private void move() {
         Thread t = new Thread(() -> {
-            while(this.getX() < primaryStage.getWidth()) {
-                Platform.runLater(() -> this.setX(this.getX() + 1));
+            while(tower.getX() < primaryStage.getWidth()) {
+                Platform.runLater(() -> {
+                        tower.setX(tower.getX() + 1);
+
+                });
                 try {
                     Thread.sleep(20);
                 } catch (InterruptedException e) {
@@ -57,7 +66,7 @@ public class BaseEnemy extends ImageView {
                 }
             }
             this.dead = true;
-            this.setVisible(false);
+            tower.setVisible(false);
         });
 
         t.setDaemon(true);

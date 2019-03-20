@@ -129,8 +129,10 @@ public class Main extends Application {
                 for (int i = 0; i < spawnCount; i++)
                 {
                     BaseEnemy enemy = new BaseEnemy(primaryStage);
-                    Platform.runLater(()->enemyVector.add(enemy));
-                    Platform.runLater(()->root.getChildren().add(enemy));
+                    Platform.runLater(()->{
+                            enemyVector.add(enemy);
+                            root.getChildren().add(enemy);
+                    });
 
 
                     try {
@@ -150,15 +152,17 @@ public class Main extends Application {
         t.setDaemon(true);
         t.start();
 
-        //Check if Lives is 0 and if Baloon is out of Screen
+        //Check if Lives is 0 and if Balloon is out of Screen
         Thread endCheck = new Thread(() -> {
             while(true) {
                 for (BaseEnemy e : enemyVector) {
                     if (e.isDead()) {
                         mainLives.set(mainLives.get()-1);
                         System.out.println(mainLives);
-                        enemyVector.remove(e);
-                        Platform.runLater(() -> root.getChildren().remove(e));
+                        Platform.runLater(() ->{
+                                enemyVector.remove(e);
+                                root.getChildren().remove(e);
+                        });
                     }
                 }
 

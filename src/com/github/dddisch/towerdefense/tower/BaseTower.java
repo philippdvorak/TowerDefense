@@ -94,7 +94,7 @@ public class BaseTower extends ImageView
                     for (BaseEnemy e : Main.getEnemyVector()) {
                         if (hitBox.intersects(e.getBoundsInLocal())) {
 
-                            Platform.runLater(() -> this.setRotate(calcAngle(e.getX(), e.getY())));
+                            Platform.runLater(() -> this.setRotate(calcAngle(e.getLayoutX(), e.getLayoutY())));
 
                             shoot(e);
 
@@ -105,8 +105,11 @@ public class BaseTower extends ImageView
                                     Platform.runLater(() -> {
                                         e.setVisible(false);
 
-                                            Main.getEnemyVector().remove(e);
-                                            Platform.runLater(() -> root.getChildren().remove(e));
+                                            Platform.runLater(() -> {
+                                                    Main.getEnemyVector().remove(e);
+                                                    root.getChildren().remove(e);
+
+                                            });
 
 
                                         Main.setMoney(Main.getMoney()+5);
@@ -163,12 +166,12 @@ public class BaseTower extends ImageView
         translateTransition.setFromY((this.getY() + (this.getFitHeight()/2)) - (missle.getFitHeight()));
 
 
-        if(e.getX()>= 0) { translateTransition.setToX(e.getX()); }
+        if(e.getLayoutX()>= 0) { translateTransition.setToX(e.getLayoutX()); }
         else { return; }
 
         translateTransition.setFromY(this.getY() + (this.getFitHeight()/2));
 
-        if(e.getY() >= 0) { translateTransition.setToY(e.getY()); }
+        if(e.getLayoutY() >= 0) { translateTransition.setToY(e.getLayoutY()); }
         else { return; }
 
 
