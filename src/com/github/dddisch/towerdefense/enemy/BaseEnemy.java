@@ -8,11 +8,11 @@ import javafx.stage.Stage;
 
 public class BaseEnemy extends ImageView {
     private Stage primaryStage;
-    private SimpleIntegerProperty lives = new SimpleIntegerProperty();
+    private int lives;
     private double height, width;
 
     public BaseEnemy(Stage primaryStage) {
-        this.lives.set(100);
+        this.lives = 100;
         this.primaryStage = primaryStage;
 
         this.setImage(ImageLoader.loadImage("enemies::baloon::"));
@@ -30,11 +30,11 @@ public class BaseEnemy extends ImageView {
     }
 
     public int getLives() {
-        return lives.get();
+        return lives;
     }
 
     public void setLives(int lives) {
-        this.lives.set(lives);
+        this.lives = lives;
     }
 
     private void move() {

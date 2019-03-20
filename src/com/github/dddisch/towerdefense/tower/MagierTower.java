@@ -89,13 +89,19 @@ public class MagierTower extends ImageView
 
                             e.setLives(e.getLives() - 10);
 
-                            if (e.getLives() <= 0) {
-                                Platform.runLater(() -> {
-                                    e.setVisible(false);
-                                    Main.getEnemyVector().remove(e);
-                                    Main.setMoney(Main.getMoney()+5);
-                                });
-                            }
+
+                                if (e.getLives() <= 0) {
+                                    Platform.runLater(() -> {
+                                        e.setVisible(false);
+                                        synchronized (Main.getSync())
+                                        {
+                                            Main.getEnemyVector().remove(e);
+                                        }
+                                        Main.setMoney(Main.getMoney()+5);
+                                    });
+                                }
+
+
 
                             try {
                                 Thread.sleep(500);

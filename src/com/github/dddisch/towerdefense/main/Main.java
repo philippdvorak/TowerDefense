@@ -39,10 +39,9 @@ public class Main extends Application {
     private MagierTowerMenu ft, ft2;
     private double tempX, tempY;
     private VBox towerMenu = new VBox();
-    static private Integer sync = 0;
+    final static private Integer sync = 0;
     static SimpleIntegerProperty money = new SimpleIntegerProperty();
     Label showMoney = new Label();
-    HBox topMenu = new HBox();
 
 
     public Main() throws FileNotFoundException {
@@ -85,7 +84,7 @@ public class Main extends Application {
 
         showMoney.setLayoutX(0);
         showMoney.setVisible(true);
-        money.set(350);
+        money.set(280);
         showMoney.setText("$" + money.get());
 
         ft = new MagierTowerMenu(primaryStage);
@@ -103,9 +102,14 @@ public class Main extends Application {
 
                for (int i = 0; i < spawnCount; i++)
                {
+
+                   synchronized (sync)
+                   {
                        BaseEnemy enemy = new BaseEnemy(primaryStage);
                        enemyVector.add(enemy);
                        Platform.runLater(()->root.getChildren().add(enemy));
+                   }
+
 
                    try {
                        Thread.sleep(spawnTime);
@@ -140,8 +144,8 @@ public class Main extends Application {
                         tower = ImageLoader.loadImageView("towers::magier::");
                         tower.setFitWidth(56);
                         tower.setFitHeight(58);
-                        tower.setX(MouseInfo.getPointerInfo().getLocation().x);
-                        tower.setY(MouseInfo.getPointerInfo().getLocation().y);
+                        tower.setX(primaryStage.getWidth()-(ft.getPrefWidth()/2));
+                        tower.setY(0);
                         tower.setPreserveRatio(true);
                         root.getChildren().add(tower);
                     }
@@ -155,8 +159,8 @@ public class Main extends Application {
                 tower.setVisible(true);
                 tempX = e.getScreenX() - (tower.getFitWidth() / 2);
                 tempY = e.getScreenY() - (tower.getFitHeight() / 2);
-                tower.setX(MouseInfo.getPointerInfo().getLocation().x - (tower.getFitWidth() / 2));
-                tower.setY(MouseInfo.getPointerInfo().getLocation().y - (tower.getFitHeight() / 2));
+                tower.setX(e.getScreenX() - (tower.getFitWidth() / 2));
+                tower.setY(e.getScreenY() - (tower.getFitHeight() / 2));
             }
 
         });
