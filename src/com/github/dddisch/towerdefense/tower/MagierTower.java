@@ -3,6 +3,7 @@ package com.github.dddisch.towerdefense.tower;
 import com.github.dddisch.towerdefense.enemy.BaseEnemy;
 import com.github.dddisch.towerdefense.enemy.BaseEnemy;
 import com.github.dddisch.towerdefense.main.Main;
+import com.github.dddisch.towerdefense.utils.imageloader.ImageLoader;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -36,17 +37,9 @@ public class MagierTower extends ImageView
     public MagierTower(double x, double y, Group root)
     {
 
-        try {
-            this.setImage(new Image(new FileInputStream("./res/img/Magier.png")));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        this.setImage(ImageLoader.loadImage("towers::magier::"));
 
-        try {
-            magicShoot = new ImageView(new Image(new FileInputStream("./res/img/MagieBall.png")));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        magicShoot = ImageLoader.loadImageView("towers::magier::missile");
 
         fadeTransition = new FadeTransition(Duration.millis(300), magicShoot);
         translateTransition = new TranslateTransition(Duration.millis(300), magicShoot);
@@ -92,7 +85,7 @@ public class MagierTower extends ImageView
 
                             Platform.runLater(() -> this.setRotate(calcAngle(e.getX(), e.getY())));
 
-                            shoot(e);
+                            //shoot(e);
 
                             e.setLives(e.getLives() - 10);
 
