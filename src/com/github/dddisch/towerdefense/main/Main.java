@@ -7,6 +7,7 @@ import com.github.dddisch.towerdefense.utils.imageloader.ImageLoader;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -35,7 +36,7 @@ public class Main extends Application {
     final static private Integer sync = new Integer(0);
     static SimpleIntegerProperty money = new SimpleIntegerProperty();
     private ProgressBar showLives = new ProgressBar();
-    private SimpleIntegerProperty mainLives = new SimpleIntegerProperty(100);
+    private SimpleDoubleProperty mainLives = new SimpleDoubleProperty(100);
     Label showMoney = new Label();
     String whichTower;
 
@@ -97,7 +98,7 @@ public class Main extends Application {
         showLives.setStyle("-fx-accent: red;");
         showLives.setVisible(true);
         mainLives.set(10);
-        showLives.setProgress((double)mainLives.get()/10);
+        showLives.progressProperty().bind(mainLives.divide(10));
 
         root.getChildren().add(showMoney);
         root.getChildren().add(showLives);
