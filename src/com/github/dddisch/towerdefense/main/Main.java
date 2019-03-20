@@ -9,14 +9,21 @@ import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
@@ -39,6 +46,7 @@ public class Main extends Application {
     private SimpleDoubleProperty mainLives = new SimpleDoubleProperty(100);
     Label showMoney = new Label();
     String whichTower;
+    private DropShadow drop = new DropShadow();
 
 
     public Main() throws FileNotFoundException {
@@ -79,8 +87,16 @@ public class Main extends Application {
         back.setFitHeight(primaryStage.getHeight());
         root.getChildren().add(back);
 
+        drop.setOffsetY(3);
+        drop.setColor(Color.color(0.4f, 0.4f, 0.4f));
+
         showMoney.setLayoutX(0);
         showMoney.setVisible(true);
+        showMoney.setPrefWidth(150);
+        showMoney.setPrefHeight(50);
+        showMoney.setTextFill(Color.WHITE);
+        showMoney.setEffect(drop);
+        showMoney.setFont(new Font("Helvetica", 40));
         money.set(300);
         showMoney.setText("$" + money.get());
 
