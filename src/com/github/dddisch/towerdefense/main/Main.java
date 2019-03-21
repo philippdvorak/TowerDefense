@@ -9,7 +9,6 @@ import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -18,9 +17,6 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -40,12 +36,11 @@ public class Main extends Application {
     private TowerMenu mT, sT;
     private double tempX, tempY;
     private VBox towerMenu = new VBox();
-    final static private Integer sync = new Integer(0);
-    static SimpleIntegerProperty money = new SimpleIntegerProperty();
+    private static SimpleIntegerProperty money = new SimpleIntegerProperty();
     private ProgressBar showLives = new ProgressBar();
     private SimpleDoubleProperty mainLives = new SimpleDoubleProperty(100);
-    Label showMoney = new Label();
-    String whichTower;
+    private Label showMoney = new Label();
+    private String whichTower;
     private DropShadow drop = new DropShadow();
     private int costMoney = 0;
 
@@ -55,10 +50,6 @@ public class Main extends Application {
 
     static public Queue<BaseEnemy> getEnemyVector() {
         return enemyVector;
-    }
-
-    public static Integer getSync() {
-        return sync;
     }
 
     static public int getMoney() {
@@ -100,8 +91,8 @@ public class Main extends Application {
         money.set(3000);
         showMoney.setText("$" + money.get());
 
-        mT = new TowerMenu(primaryStage, "Magier - $150");
-        sT = new TowerMenu(primaryStage, "Sniper - $250");
+        mT = new TowerMenu("Magier - $150");
+        sT = new TowerMenu("Sniper - $250");
 
         towerMenu.getChildren().add(mT);
         towerMenu.getChildren().add(sT);

@@ -96,7 +96,7 @@ public class BaseEnemy extends ImageView {
         t.start();
     }
 
-    public void addListeners()
+    private void addListeners()
     {
         this.setOnMousePressed(event -> {
             isClicked = true;
