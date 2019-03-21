@@ -1,16 +1,11 @@
 package com.github.dddisch.towerdefense.enemy;
 
-import com.github.dddisch.towerdefense.main.Main;
 import com.github.dddisch.towerdefense.utils.imageloader.ImageLoader;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class BaseEnemy extends ImageView {
@@ -26,7 +21,6 @@ public class BaseEnemy extends ImageView {
         this.root = root;
         this.lives.set(100);
         this.primaryStage = primaryStage;
-
         this.setImage(ImageLoader.loadImage("enemies::baloon::"));
 
         show();
@@ -87,7 +81,6 @@ public class BaseEnemy extends ImageView {
                         else {
                             showEnemyLives.setVisible(false);
                         }
-
                 });
                 try {
                     Thread.sleep(20);

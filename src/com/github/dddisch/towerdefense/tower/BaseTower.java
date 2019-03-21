@@ -17,17 +17,13 @@ import javafx.util.Duration;
  */
 public class BaseTower extends ImageView
 {
-
-
     private Circle hitBox;
     private ImageView missle;
-
-    FadeTransition fadeTransition;
-    TranslateTransition translateTransition;
-    RotateTransition rotateTransition;
-    ScaleTransition scaleTransition;
-    ParallelTransition parallelTransition = new ParallelTransition();
-
+    private FadeTransition fadeTransition;
+    private TranslateTransition translateTransition;
+    private RotateTransition rotateTransition;
+    private ScaleTransition scaleTransition;
+    private ParallelTransition parallelTransition = new ParallelTransition();
 
     public BaseTower(double x, double y, Group root, String skin, String missileSkin, int hitRadius, int attackSpeed)
     {
@@ -48,11 +44,9 @@ public class BaseTower extends ImageView
         );
 
         this.setVisible(true);
-
         hitBox = new Circle(hitRadius);
         hitBox.setVisible(false);
         hitBox.setFill(Color.rgb(255, 255, 50,0.5));
-
         addListeners();
     }
 
@@ -83,18 +77,13 @@ public class BaseTower extends ImageView
     }
 
     public void calcHitBox(Group root) {
-
         Thread test = new Thread(()->{
                 while (true) {
                     for (BaseEnemy e : Main.getEnemyVector()) {
                         if (hitBox.intersects(e.getBoundsInLocal())) {
-
                             Platform.runLater(() -> this.setRotate(calcAngle(e.getX(), e.getY())));
-
                             shoot(e);
-
                             e.setLives(e.getLives() - 10);
-
 
                                 if (e.getLives() <= 0) {
                                     e.getShowEnemyLives().setVisible(false);
@@ -104,40 +93,27 @@ public class BaseTower extends ImageView
                                         Main.getEnemyVector().remove(e);
                                             Platform.runLater(() -> {
                                                     root.getChildren().remove(e);
-
                                             });
-
-
                                         Main.setMoney(Main.getMoney()+5);
                                     });
                                 }
-
                             try {
                                 Thread.sleep(500);
                             } catch (InterruptedException e2) {
                                 e2.printStackTrace();
                             }
-
                             break;
                         }
                     }
                 }
         });
-
-
         test.setDaemon(true);
         test.start();
-
-
-
-
     }
 
     private double calcAngle(double x, double y) {
-
             double angle = Math.toDegrees(Math.atan2(x - this.getX(), y - this.getY()));
             return -angle + 180;
-
     }
 
     private void addListeners() {
@@ -153,34 +129,22 @@ public class BaseTower extends ImageView
         missle.setTranslateX(0);
         missle.setTranslateY(0);
         missle.setVisible(false);
-
         fadeTransition.setFromValue(1.0f);
         fadeTransition.setToValue(0.0f);
-
-
         translateTransition.setFromX((this.getX() + (this.getFitWidth()/2))- (missle.getFitWidth()));
         translateTransition.setFromY((this.getY() + (this.getFitHeight()/2)) - (missle.getFitHeight()));
-
 
         if(e.getX()>= 0) { translateTransition.setToX(e.getX()); }
         else { return; }
 
-        translateTransition.setFromY(this.getY() + (this.getFitHeight()/2));
-
         if(e.getY() >= 0) { translateTransition.setToY(e.getY()); }
         else { return; }
 
-
+        translateTransition.setFromY(this.getY() + (this.getFitHeight()/2));
         rotateTransition.setByAngle(180f);
-
         scaleTransition.setToX(1.3f);
         scaleTransition.setToY(1.3f);
-
         parallelTransition.play();
         missle.setVisible(true);
-
     }
-
-
-
 }

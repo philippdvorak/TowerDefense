@@ -49,10 +49,9 @@ public class Main extends Application {
     private DropShadow drop = new DropShadow();
     private int costMoney = 0;
 
-
     public Main() throws FileNotFoundException {
-    }
 
+    }
 
     static public Queue<BaseEnemy> getEnemyVector() {
         return enemyVector;
