@@ -21,6 +21,7 @@ public class BaseEnemy extends ImageView {
     private double height, width;
     private boolean isClicked = false;
     private ProgressBar showEnemyLives = new ProgressBar();
+
     public BaseEnemy(Stage primaryStage, Group root) {
         this.root = root;
         this.lives.set(100);
@@ -46,7 +47,7 @@ public class BaseEnemy extends ImageView {
         this.setX(0);
         this.setY(primaryStage.getHeight()/2-35);
         showEnemyLives.setLayoutY(this.getY() - 10);
-        showEnemyLives.progressProperty().bind(lives.divide(10));
+        showEnemyLives.progressProperty().bind(lives.divide(100));
 
     }
 
@@ -75,7 +76,7 @@ public class BaseEnemy extends ImageView {
             while(this.getX() < primaryStage.getWidth()) {
                 Platform.runLater(() -> {
                         this.setX(this.getX() + 1);
-                        if (isClicked)
+                        if (isClicked && this.lives.get() > 0)
                         {
                             showEnemyLives.setVisible(true);
                             showEnemyLives.setLayoutX(this.getX());
