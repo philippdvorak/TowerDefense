@@ -48,15 +48,10 @@ public class BaseTower extends ImageView
         );
 
         this.setVisible(true);
-        this.setX(x);
-        this.setY(y);
 
         hitBox = new Circle(hitRadius);
         hitBox.setVisible(false);
         hitBox.setFill(Color.rgb(255, 255, 50,0.5));
-        hitBox.setCenterX(x+(this.getFitWidth()/2));
-        hitBox.setCenterY(y+(this.getFitHeight()/2));
-
 
         addListeners();
     }

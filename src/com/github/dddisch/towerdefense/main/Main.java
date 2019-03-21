@@ -261,6 +261,8 @@ public class Main extends Application {
                     root.getChildren().add(towerVector.lastElement());
                     root.getChildren().add(towerVector.lastElement().getHitBox());
 
+                    towerVector.lastElement().getHitBox().setCenterX(towerVector.lastElement().getX() + towerVector.lastElement().getFitWidth()/2);
+                    towerVector.lastElement().getHitBox().setCenterY(towerVector.lastElement().getY() + towerVector.lastElement().getFitHeight()/2);
                     towerVector.lastElement().calcHitBox(root);
                     money.set(money.get() - costMoney);
                     root.getChildren().remove(tower);
