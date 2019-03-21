@@ -56,7 +56,9 @@ public class BaseEnemy extends ImageView {
     }
 
     public void setLives(int lives) {
-        this.lives.set(lives);
+        if(this.lives != null) {
+            this.lives.set(lives);
+        }
     }
 
     public boolean isDead() {
