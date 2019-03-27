@@ -88,7 +88,7 @@ public class Main extends Application {
         showMoney.setTextFill(Color.WHITE);
         showMoney.setEffect(drop);
         showMoney.setFont(new Font("Helvetica", 40));
-        money.set(3000);
+        money.set(300);
         showMoney.setText("$" + money.get());
 
         mT = new TowerMenu("Magier - $150");
